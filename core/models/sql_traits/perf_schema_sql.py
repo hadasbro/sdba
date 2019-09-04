@@ -55,7 +55,7 @@ class PerfSchemaSql(ABC):
                "FROM " \
                "performance_schema.table_io_waits_summary_by_index_usage " \
                "WHERE " \
-               "`object_schema` IN('test_database', 'prfbonus_system') AND `object_name` IN('wallet_transactions', 'Network', 'casino_bonus') " \
+               "`object_schema` IN('test_database', 'test') AND `object_name` IN('table1', 'table2', 'table3') " \
                "GROUP BY " \
                "object_schema, object_name, index_name " \
                "ORDER BY object_schema, object_name " \
