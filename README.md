@@ -71,15 +71,15 @@ Program is written in Python, GUI is based on Program uses [EEL Library](https:/
 
     | Priviledge | Context | Performed actions | Info |
     | :---         |     :---:      |         :---: | :---: |
-    | [ [ PROCESS ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_process)   | Server administration     | SELECT/READ ONLY    | **[ NL ] |
-    | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select)  + DB [ [ information_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/information-schema.html) access | Tables or columns     | SELECT/READ ONLY    | [ NL ] |
+    | [ [ PROCESS ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_process)   | Server administration     | SELECT/READ ONLY    | [NL] |
+    | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select)  + DB [ [ information_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/information-schema.html) access | Tables or columns     | SELECT/READ ONLY    | [NL] |
 
 
 2. Replication
 
     | Priviledge | Context | Performed actions | Info |
     | :---         |     :---:      |         :---: | :---: |
-    | [ [ SUPER ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_super) or [ [ REPLICATION CLIENT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_replication-client)  | Server administration     | SHOW STATUS   | [ M ] |
+    | [ [ SUPER ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_super) or [ [ REPLICATION CLIENT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_replication-client)  | Server administration     | SHOW STATUS   | [M] |
 
 
 3. Settings & Variables
@@ -93,7 +93,7 @@ Program is written in Python, GUI is based on Program uses [EEL Library](https:/
     
     | Priviledge | Context | Performed actions | Info |
     | :---         |     :---:      |         :---: | :---: |
-    | [ [ PROCESS ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_process) | Server administration     | SHOW STATUS   | [ M ] |
+    | [ [ PROCESS ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_process) | Server administration     | SHOW STATUS   | [M] |
 
 
 
@@ -101,35 +101,35 @@ Program is written in Python, GUI is based on Program uses [EEL Library](https:/
 
     | Priviledge | Context | Performed actions | Info |
     | :---         |     :---:      |         :---: | :---: |
-    | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select) + DB [ [ performance_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-startup-configuration.html) access + DB [ [ Performance Schema ] ](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-startup-configuration.html) ENABLED | Server administration     | SELECT/READ   | [ M ] |
-    | Performance Schema ENABLED - setting [mysqld] performance_schema=ON | Server administration     | SELECT/READ   | [ M ] |
+    | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select) + DB [ [ performance_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-startup-configuration.html) access + DB [ [ Performance Schema ] ](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-startup-configuration.html) ENABLED | Server administration     | SELECT/READ   | [M] |
+    | Performance Schema ENABLED - setting [mysqld] performance_schema=ON | Server administration     | SELECT/READ   | [M] |
 
 
 6. Performance 
 
     | Priviledge | Context | Performed actions | Info |
     | :---         |     :---:      |         :---: | :---: |
-    | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select) + DB [ [ performance_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-startup-configuration.html) access + DB [ [ Performance Schema ] ](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-startup-configuration.html) ENABLED | Server administration     | SELECT/READ   | [ M ] |
-    | Performance Schema ENABLED - setting [mysqld] performance_schema=ON | Server administration     | SELECT/READ   | [ M ] |
+    | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select) + DB [ [ performance_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-startup-configuration.html) access + DB [ [ Performance Schema ] ](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-startup-configuration.html) ENABLED | Server administration     | SELECT/READ   | [M] |
+    | Performance Schema ENABLED - setting [mysqld] performance_schema=ON | Server administration     | SELECT/READ   | [M] |
     
 
 7. Schema Info
     | Priviledge | Context | Performed actions | Info |
     | :---         |     :---:      |         :---: | :---: |
-    | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select)  + DB [ [ information_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/information-schema.html) access | Tables or columns     | SELECT/READ ONLY    | [ M ] |
+    | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select)  + DB [ [ information_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/information-schema.html) access | Tables or columns     | SELECT/READ ONLY    | [M] |
 
 
 8. Analyzers
     | Priviledge | Context | Performed actions | Info |
     | :---         |     :---:      |         :---: | :---: |
-    | No any special rights needed | Any    | No SQL, only static log analyze  | [ M ] |
+    | No any special rights needed | Any    | No SQL, only static log analyze  | [M] |
 
 
 Where:
 
-*[ NL ] - Not mandatory. Limitted functionality if priviledge not granted.*
+*[NL] - Not mandatory. Limitted functionality if priviledge not granted.*
 
-*[ M ] - mandatory. Disabled functionality if priviledge not granted.*
+*[M] - mandatory. Disabled functionality if priviledge not granted.*
 
 
 
