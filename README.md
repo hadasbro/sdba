@@ -65,7 +65,7 @@ Program is written in Python, GUI is based on Program uses [EEL Library](https:/
 
   
 
-## Functionality vs needed permissions
+## Required permissions
 
 1. Overview
 
@@ -104,28 +104,19 @@ Program is written in Python, GUI is based on Program uses [EEL Library](https:/
     | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select) + DB [ [ performance_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-startup-configuration.html) access + DB [ [ Performance Schema ] ](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-startup-configuration.html) ENABLED | Server administration     | SELECT/READ   | [M] |
     | Performance Schema ENABLED - setting [mysqld] performance_schema=ON | Server administration     | SELECT/READ   | [M] |
 
-
-6. Performance 
-
-    | Priviledge | Context | Performed actions | Info |
-    | :---         |     :---:      |         :---: | :---: |
-    | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select) + DB [ [ performance_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-startup-configuration.html) access + DB [ [ Performance Schema ] ](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-startup-configuration.html) ENABLED | Server administration     | SELECT/READ   | [M] |
-    | Performance Schema ENABLED - setting [mysqld] performance_schema=ON | Server administration     | SELECT/READ   | [M] |
-    
-
-7. Schema Info
+6. Schema Info
     | Priviledge | Context | Performed actions | Info |
     | :---         |     :---:      |         :---: | :---: |
     | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select)  + DB [ [ information_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/information-schema.html) access | Tables or columns     | SELECT/READ ONLY    | [M] |
 
 
-8. Analyzers
+7. Analyzers
     | Priviledge | Context | Performed actions | Info |
     | :---         |     :---:      |         :---: | :---: |
     | No any special rights needed | Any    | No SQL, only static log analyze  | [M] |
 
 
-Where:
+**Where:**
 
 *[NL] - Not mandatory. Limitted functionality if priviledge not granted.*
 
