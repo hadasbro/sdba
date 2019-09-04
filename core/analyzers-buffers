@@ -1,0 +1,112 @@
+0. Overview
+
+a) Active processes
+SELECT * FROM information_schema.PROCESSLIST WHERE COMMAND != 'Sleep'
+
+b) commandline stats (SELECT INSERT UPDATE)
+
+c) Key Hit Rate
+SHOW global STATUS LIKE 'Key_%'
+READ Key Read Efficiency = [1 - (Key_reads/Key_read_requests)]*100
+
+d) Query cache Hit Rate
+SHOW GLOBAL STATUS LIKE 'Qcache%'
+SHOW global STATUS LIKE 'Com_select%'
+
+Hit rate = Qcache_hits / (Qcache_hits + Com_select) * 100
+
+e) Buffer Efficiancy & utilization
+SHOW GLOBAL STATUS LIKE 'innodb_buffer_pool%';
+
+BUFFER pool utiization
+[(Innodb_buffer_pool_pages_total - Innodb_buffer_pool_pages_free) / Innodb_buffer_pool_pages_total ] * 100
+SELECT ((4194296 - 16599) / 4194296) * 100
+
+Buffer pool efficiency [ requests hit HDD outside BUFFER (0-2% IS good)]
+
+
+[ok] 1. Monitor (SHOW ENGINE INNODB STATUS)
+[ok] 2. Replication (SHOW SLAVE/MASTER STATUS)
+[ok] 3. Variables
+
+3. Information Schema
+a) Biggest Tables
+SELECT
+*,
+table_name AS `Table`,
+table_schema AS `Database`,
+round(((data_length + index_length) / 1024 / 1024 / 1024), 2) `size_in_GB`
+FROM information_schema.TABLES
+ORDER BY size_in_GB DESC
+LIMIT 11
+
+
+b) See aggregated size per schema per engine:
+
+SELECT TABLE_SCHEMA, ENGINE, COUNT(*) AS count_tables,
+SUM(DATA_LENGTH+INDEX_LENGTH) AS size,
+SUM(INDEX_LENGTH) AS index_size FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_SCHEMA NOT IN ('mysql', 'INFORMATION_SCHEMA')
+AND ENGINE IS NOT NULL GROUP BY TABLE_SCHEMA, ENGINE
+nnodb_buffer_pool_reads/innodb_buffer_pool_read_requests)*100= 0.001
+
+c) tables wihout PK
+
+SELECT CONCAT(t.table_name,".",t.table_schema) as table_name
+FROM information_schema.TABLES t
+LEFT JOIN information_schema.TABLE_CONSTRAINTS tc
+ON t.table_schema = tc.table_schema
+AND t.table_name = tc.table_name
+AND tc.constraint_type = 'PRIMARY KEY'
+WHERE tc.constraint_name IS NULL
+AND t.table_type = 'BASE TABLE';
+
+
+4. Performance
+a) Top 10 persistent long queries
+SELECT
+digest_text, count_star
+, TRUNCATE(avg_timer_wait/1000000000000, 6) AS avg_timer_wait
+
+FROM performance_schema.events_statements_summary_by_digest
+WHERE LAST_SEEN >= CURRENT_DATE() - INTERVAL 3 day
+ORDER BY avg_timer_wait DESC
+LIMIT 10;
+
+ab) Top 10 most frequent UPDATEs
+SELECT
+digest_text,
+count_star / update_total * 100 as percentage_of_all
+FROM events_statements_summary_by_digest,
+( SELECT sum(count_star) update_total
+FROM events_statements_summary_by_digest
+WHERE digest_text LIKE 'UPDATE%'
+) update_totals
+WHERE digest_text LIKE 'UPDATE%'
+ORDER BY percentage_of_all DESC
+LIMIT 10
+
+
+b) Count fetch ratio
+SELECT object_schema AS table_schema,
+object_name AS table_name,
+index_name,
+count_fetch,
+count_insert,
+count_update,
+count_delete
+
+FROM performance_schema.table_io_waits_summary_by_index_usage
+WHERE /* index_name IS NOT NULL AND  */
+`object_schema` = 'test_database' AND `object_name` = 'wallet_transactions'
+ORDER BY sum_timer_wait DESC
+LIMIT 11
+
+
+[ok] 4/5. Analyzers
+
+
+
+
+
+
