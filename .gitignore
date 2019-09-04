@@ -11,4 +11,4 @@ venv/
 build/
 gui/react
 output/
-dist/
+core/commons/.mypy_cache
