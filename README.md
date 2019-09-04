@@ -120,9 +120,9 @@ Program is written in Python, GUI is based on Program uses [EEL Library](https:/
 
 **Where:**
 
-*[NL] - Not mandatory. Limitted functionality if priviledge not granted.*
+`[NL] - Not mandatory. Limitted functionality if priviledge not granted.`
 
-*[M] - mandatory. Disabled functionality if priviledge not granted.*
+`[M] - mandatory. Disabled functionality if priviledge not granted.`
 
 
 
