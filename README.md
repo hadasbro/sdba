@@ -105,12 +105,14 @@ Program is written in Python, GUI is based on Program uses [EEL Library](https:/
     | Performance Schema ENABLED - setting [mysqld] performance_schema=ON | Server administration     | SELECT/READ   | [M] |
 
 6. Schema Info
+
     | Priviledge | Context | Performed actions | Info |
     | :---         |     :---:      |         :---: | :---: |
     | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select)  + DB [ [ information_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/information-schema.html) access | Tables or columns     | SELECT/READ ONLY    | [M] |
 
 
 7. Analyzers
+
     | Priviledge | Context | Performed actions | Info |
     | :---         |     :---:      |         :---: | :---: |
     | No any special rights needed | Any    | No SQL, only static log analyze  | [M] |
@@ -342,5 +344,9 @@ round(["Qcache_hits"] / (["Qcache_hits"] + ["Com_select"]), 2) * 100
 + [Eel](https://github.com/ChrisKnott/Eel) Electron-like offline HTML/JS GUI apps
 + [Percona](https://www.percona.com/) Community & Forum
 + [MySQL](https://dev.mysql.com) Community
+
+## Useful links
++ [Deling with deadlocks - Percona](https://www.percona.com/blog/2014/10/28/how-to-deal-with-mysql-deadlocks/) Community & Forum
++ [MySQL Documentation](https://dev.mysql.com/) 
 
 ---
