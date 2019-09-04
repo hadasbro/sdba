@@ -70,7 +70,7 @@ Program is written in Python, GUI is based on Program uses [EEL Library](https:/
 1. Overview
 
 | Priviledge | Context | Performed actions | Info |
-| :---         |     :---:      |         :---: |
+| :---         |     :---:      |         :---: | :---: |
 | [ [ PROCESS ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_process)   | Server administration     | SELECT/READ ONLY    | **[NL]
 | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select)  + DB [ [ information_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/information-schema.html) access | Tables or columns     | SELECT/READ ONLY    | **[NL]
 
@@ -79,7 +79,7 @@ Program is written in Python, GUI is based on Program uses [EEL Library](https:/
 2. Replication
 
 | Priviledge | Context | Performed actions | Info |
-| :---         |     :---:      |         :---: |
+| :---         |     :---:      |         :---: | :---: |
 | [ [ SUPER ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_super) or [ [ REPLICATION CLIENT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_replication-client)  | Server administration     | SHOW STATUS   | **[M]
 
 **[M] - mandatory. Disabled functionality if priviledge not granted.
@@ -88,7 +88,7 @@ Program is written in Python, GUI is based on Program uses [EEL Library](https:/
 3. Settings & Variables
 
 | Priviledge | Context | Performed actions | Info |
-| :---         |     :---:      |         :---: |
+| :---         |     :---:      |         :---: | :---: |
 | Any - does not require any special rights | Any     | SHOW VARIABLES   | -
 
 **[M] - mandatory. Disabled functionality if priviledge not granted.
@@ -97,7 +97,7 @@ Program is written in Python, GUI is based on Program uses [EEL Library](https:/
 4. InnoDB
 
 | Priviledge | Context | Performed actions | Info |
-| :---         |     :---:      |         :---: |
+| :---         |     :---:      |         :---: | :---: |
 | [ [ PROCESS ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_process) | Server administration     | SHOW STATUS   | **[M]
 
 **[M] - mandatory. Disabled functionality if priviledge not granted.
@@ -106,7 +106,7 @@ Program is written in Python, GUI is based on Program uses [EEL Library](https:/
 5. Performance 
 
 | Priviledge | Context | Performed actions | Info |
-| :---         |     :---:      |         :---: |
+| :---         |     :---:      |         :---: | :---: |
 | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select) + DB [ [ performance_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-startup-configuration.html) access + DB [ [ Performance Schema ] ](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-startup-configuration.html) ENABLED | Server administration     | SELECT/READ   | **[M]
 | Performance Schema ENABLED - setting [mysqld] performance_schema=ON | Server administration     | SELECT/READ   | **[M]
 
@@ -116,7 +116,7 @@ Program is written in Python, GUI is based on Program uses [EEL Library](https:/
 6. Performance 
 
 | Priviledge | Context | Performed actions | Info |
-| :---         |     :---:      |         :---: |
+| :---         |     :---:      |         :---: | :---: |
 | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select) + DB [ [ performance_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-startup-configuration.html) access + DB [ [ Performance Schema ] ](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-startup-configuration.html) ENABLED | Server administration     | SELECT/READ   | **[M]
 | Performance Schema ENABLED - setting [mysqld] performance_schema=ON | Server administration     | SELECT/READ   | **[M]
 
@@ -125,7 +125,7 @@ Program is written in Python, GUI is based on Program uses [EEL Library](https:/
 
 7. Schema Info
 | Priviledge | Context | Performed actions | Info |
-| :---         |     :---:      |         :---: |
+| :---         |     :---:      |         :---: | :---: |
 | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select)  + DB [ [ information_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/information-schema.html) access | Tables or columns     | SELECT/READ ONLY    | **[M]
 
 **[M] - mandatory. Disabled functionality if priviledge not granted.
@@ -133,7 +133,7 @@ Program is written in Python, GUI is based on Program uses [EEL Library](https:/
 
 8. Analyzers
 | Priviledge | Context | Performed actions | Info |
-| :---         |     :---:      |         :---: |
+| :---         |     :---:      |         :---: | :---: |
 | No any special rights needed | Any    | No SQL, only static log analyze  | **[M]
 
 **[M] - mandatory. Disabled functionality if priviledge not granted.
