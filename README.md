@@ -24,10 +24,20 @@ Program is written in Python, GUI is based on Program uses [EEL Library](https:/
 	- info about logs (settings, file names and locations)
 	- general commands statistics 
 	- some other info and stats
-   
+	    ##### Required permissions
+        | Priviledge | Context | Performed actions | Info |
+        | :---         |     :---:      |         :---: | :---: |
+        | [ [ PROCESS ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_process)   | Server administration     | SELECT/READ ONLY    | [NL] |
+        | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select)  + DB [ [ information_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/information-schema.html) access | Tables or columns     | SELECT/READ ONLY    | [NL] |
+
+
 2. Settings & Variables - general info about all DB settings splitted per session and global scopes
 	- system settings & properties
 	- session settings & properties
+		##### Required permissions
+        | Priviledge | Context | Performed actions | Info |
+        | :---         |     :---:      |         :---: | :---: |
+        | Any - does not require any special rights | Any     | SHOW VARIABLES   | -  |
 
 3. Replication - info about replication
 	- Master and Slave status 
@@ -37,6 +47,10 @@ Program is written in Python, GUI is based on Program uses [EEL Library](https:/
 	- latest I/O and SQL errors
 	- replication delay 
 	- other info
+		##### Required permissions
+        | Priviledge | Context | Performed actions | Info |
+        | :---         |     :---:      |         :---: | :---: |
+        | [ [ SUPER ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_super) or [ [ REPLICATION CLIENT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_replication-client)  | Server administration     | SHOW STATUS   | [M] |
 
 4. InnoDB Monitor - status of InnoDb engine
     - latest transactions
@@ -46,83 +60,45 @@ Program is written in Python, GUI is based on Program uses [EEL Library](https:/
     - latest foreign key error
     - latest found deadlock
     - buffer pool info
+    ##### Required permissions
+    | Priviledge | Context | Performed actions | Info |
+    | :---         |     :---:      |         :---: | :---: |
+    | [ [ PROCESS ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_process) | Server administration     | SHOW STATUS   | [M] |
 
 5. Performance - info about performance
 	- top 10 the longest SELECT queries (query, percent of all queries, last occurence date)
 	- top 10 the longest UPDATE queries (query, percent of all queries, last occurence date)
 	- indexes stats for top 10 the biggest tables
-
-6. Info Schema - info about databases and tables
-	- info about the biggest tables
-	- DB size splitted per engines
-	- the biggest tables without Primary Key
- 
-7. Analyzers
-	+ Deadlock Analyzer
-		- tool analyzes provided deadlock log from MySQL Error Log
-	+ Foreigh Key Error Analyzer
-		- tool analyzes provided foreign key error log from MySQL Error Log
-
-  
-
-## Required permissions
-
-1. Overview
-
-    | Priviledge | Context | Performed actions | Info |
-    | :---         |     :---:      |         :---: | :---: |
-    | [ [ PROCESS ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_process)   | Server administration     | SELECT/READ ONLY    | [NL] |
-    | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select)  + DB [ [ information_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/information-schema.html) access | Tables or columns     | SELECT/READ ONLY    | [NL] |
-
-
-2. Replication
-
-    | Priviledge | Context | Performed actions | Info |
-    | :---         |     :---:      |         :---: | :---: |
-    | [ [ SUPER ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_super) or [ [ REPLICATION CLIENT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_replication-client)  | Server administration     | SHOW STATUS   | [M] |
-
-
-3. Settings & Variables
-
-    | Priviledge | Context | Performed actions | Info |
-    | :---         |     :---:      |         :---: | :---: |
-    | Any - does not require any special rights | Any     | SHOW VARIABLES   | -  |
-
-
-4. InnoDB
-    
-    | Priviledge | Context | Performed actions | Info |
-    | :---         |     :---:      |         :---: | :---: |
-    | [ [ PROCESS ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_process) | Server administration     | SHOW STATUS   | [M] |
-
-
-
-5. Performance 
-
+    ##### Required permissions
     | Priviledge | Context | Performed actions | Info |
     | :---         |     :---:      |         :---: | :---: |
     | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select) + DB [ [ performance_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-startup-configuration.html) access + DB [ [ Performance Schema ] ](https://dev.mysql.com/doc/refman/8.0/en/performance-schema-startup-configuration.html) ENABLED | Server administration     | SELECT/READ   | [M] |
     | Performance Schema ENABLED - setting [mysqld] performance_schema=ON | Server administration     | SELECT/READ   | [M] |
 
-6. Schema Info
-
+6. Info Schema - info about databases and tables
+	- info about the biggest tables
+	- DB size splitted per engines
+	- the biggest tables without Primary Key
+     ##### Required permissions
     | Priviledge | Context | Performed actions | Info |
     | :---         |     :---:      |         :---: | :---: |
     | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select)  + DB [ [ information_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/information-schema.html) access | Tables or columns     | SELECT/READ ONLY    | [M] |
 
-
 7. Analyzers
-
+	+ Deadlock Analyzer
+		- tool analyzes provided deadlock log from MySQL Error Log
+	+ Foreigh Key Error Analyzer
+		- tool analyzes provided foreign key error log from MySQL Error Log
+    ##### Required permissions
     | Priviledge | Context | Performed actions | Info |
     | :---         |     :---:      |         :---: | :---: |
     | No any special rights needed | Any    | No SQL, only static log analyze  | [M] |
-
-
-**Where:**
-
-`[NL] - Not mandatory. Limitted functionality if priviledge not granted.`
-
-`[M] - mandatory. Disabled functionality if priviledge not granted.`
+    
+    **Glossary:**
+    
+    `[NL] - Not mandatory. Limitted functionality if priviledge not granted.`
+    
+    `[M] - mandatory. Disabled functionality if priviledge not granted.`
 
 
 
