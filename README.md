@@ -6,7 +6,7 @@
 **Desktop MySQL DBA Monitor**
 
 Electron-like MySQL Monitor including popular metrics based on `Information Schema`, `Performance Schema` 
-`MySQL Monitor Logs` and `Status logs`. 
+`MySQL Monitor Logs` and `Status logs`. Project is in progress.
 
 
 ![picture](s-dba-img.png)
@@ -334,6 +334,8 @@ round(["Qcache_hits"] / (["Qcache_hits"] + ["Com_select"]), 2) * 100
 ```
 
 
+## Project progress
+Project is in progress. Core is done in 40%, GUI in 50%. 
 
 
 ## Acknowledgments
