@@ -2,7 +2,7 @@ import os
 import sys
 
 from core.commons.query_log import QueryLog
-from core.commons.static_logger import StaticLogger, log_objects
+from core.commons.slogger import StaticLogger, log_objects
 from core.models.base_model import BaseModel
 from core.models.monitors import Monitor
 

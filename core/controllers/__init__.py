@@ -1,10 +1,8 @@
-from core.commons.dbs import DBS
 from core.controllers.admin import AdminController
 from core.controllers.api import ApiController
 from core.controllers.api_mock import ApiMockController
 
 
-print("INITTTTTTTTTTTTTTTT")
 if __name__ == "__main__":
     # mc = ApiController(DBS())
 
