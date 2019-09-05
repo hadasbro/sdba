@@ -7,9 +7,7 @@ from core.controllers import ApiController
 class ApiMockController:
 
     def __init__(self) -> None:
-        db = None
-        self.db = db.connection
-        self.dbx = db
+        pass
 
     def __get_response(self, payload: Dict[str, str]) -> Dict[str, str]:
         """

@@ -1,7 +1,12 @@
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Union, Optional
 
-from core.commons.tiny_dbs import TinyDBS
+from core.objects.dbs_credentials import DBSCredentials
+from core.services.dbs import DBS
+from core.services.tiny_dbs import TinyDBS
+from core.services.translator import Translator
 from core.commons.utils import Utils
+from core.exceptions.db_not_found_exception import DbNotFoundException
+from core.exceptions.payload_exception import PayloadException
 from core.models.info_schema import InfoSchema
 from core.models.monitors import MonitorDedlock, Monitors, MonitorBackground, MonitorSemaphores, \
     MonitorBufferAndMemory, MonitorRowOperations, MonitorLatestTransactions, MonitorLatestForeign
@@ -17,20 +22,49 @@ class ApiController:
     STATUS_NO_DB: int = 2
     STATUS_ERROR: int = 3
 
-    def __init__(self) -> None:
+    def __init__(self, dbs: Optional[DBS] = None) -> None:
         """
         __init__
 
-        Returns:
-            None
+        Args:
+            dbs(Optional[DBS]): db connection instance
+
+        Raises:
+            PayloadException: exception with payload to return from API
+
         """
-        tiny_db = TinyDBS()
-        ldb = tiny_db.get_latest_db()
 
-        print(ldb)
-        db = None
-        self.dbx = db
+        self.tiny_db = TinyDBS()
 
+        self.response: Dict[str, Any] = {
+            'status': self.STATUS_OK,
+            'message': "",
+            'database': {
+                'name': '',
+                'id': 0
+            },
+            'logs': [],
+            'payload': {}
+        }
+
+        if dbs is None:
+            try:
+
+                ldb: DBSCredentials = self.tiny_db.get_latest_db()
+                self.dbs = DBS(ldb)
+
+            except DbNotFoundException:
+                self.response['status'] = self.STATUS_NO_DB
+                self.response['message'] = Translator().translate("db_choose")
+                raise PayloadException("", self.response)
+
+            except Exception as ex:
+                self.response['status'] = self.STATUS_ERROR
+                self.response['message'] = Translator().translate(str(ex))
+                raise PayloadException("", self.response)
+
+        else:
+            self.dbs = dbs
 
     def __get_response(self, payload: Dict[str, str]) -> Dict[str, str]:
         """
@@ -42,18 +76,10 @@ class ApiController:
         Returns:
             Dict[str, str]
         """
-        response: Dict[str, Any] = {
-            'status': self.STATUS_ERROR,
-            'message': "",
-            'database': {
-                'name': '',
-                'id': 0
-            },
-            'logs': [],
-            'payload': payload
-        }
 
-        return Utils.dict_to_json(response)
+        self.response['payload'] = payload
+
+        return Utils.dict_to_json(self.response)
 
 
     def get_monitors(self) -> str:
@@ -64,7 +90,7 @@ class ApiController:
             str: result as json
         """
         dbStatus: Monitors = Monitors(
-            self.dbx,
+            self.dbs,
             MonitorBackground(),
             MonitorSemaphores(),
             MonitorBufferAndMemory(),
@@ -83,7 +109,7 @@ class ApiController:
         Returns:
             str: result as json
         """
-        mv = MySQLVariables(self.dbx)
+        mv = MySQLVariables(self.dbs)
         return self.__get_response(mv.get_all_variables())
 
     def get_replication_data(self) -> str:
@@ -93,7 +119,7 @@ class ApiController:
         Returns:
             str: result as json
         """
-        mv = MysqlReplication(self.dbx)
+        mv = MysqlReplication(self.dbs)
         return self.__get_response(mv.get_replication_log())
 
     def get_overview(self) -> str:
@@ -103,7 +129,7 @@ class ApiController:
         Returns:
             str: result as json
         """
-        mv = Overview(self.dbx)
+        mv = Overview(self.dbs)
         res: Dict[str, Union[List[Dict[str, Any]], Dict[str, Any]]] = {
             "active_processes": mv.get_active_processes(),
             "commands_general_stats": mv.get_commands_general_stats(),
@@ -123,7 +149,7 @@ class ApiController:
         Returns:
             str: result as json
         """
-        pes = PerformanceSchema(self.dbx)
+        pes = PerformanceSchema(self.dbs)
         res: Dict[str, List[Dict[str, Any]]] = {
             "top_long_queries": pes.get_top_long_queries(),
             "top_long_updates": pes.get_top_long_updates(),
@@ -139,7 +165,7 @@ class ApiController:
         Returns:
             str: result as json
         """
-        ise = InfoSchema(self.dbx)
+        ise = InfoSchema(self.dbs)
 
         big_tables = ise.get_biggest_tables_chached()
         seze_per_engine = ise.get_size_per_engine_cached()
