@@ -4,6 +4,7 @@ class Singleton(type):
     def __call__(cls, *args, **kwargs):
         """
         __call__
+
         Args:
             *args (): -
             **kwargs (): -

@@ -3,16 +3,14 @@ from core.commons.dbs import DBS
 
 class AdminController:
 
-    def __init__(self, db: DBS) -> None:
+    def __init__(self) -> None:
         """
         __init__
-
-        Args:
-            db (DBS): -
 
         Returns:
             None
         """
+        db = None
         self.db = db.connection
         self.dbx = db
 

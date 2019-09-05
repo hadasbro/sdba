@@ -1,15 +1,40 @@
-from core.commons.dbs import DBS
+from typing import Dict, Any
+
 from core.commons.utils import Utils
+from core.controllers import ApiController
 
 
 class ApiMockController:
 
-    def __init__(self, db: DBS) -> None:
+    def __init__(self) -> None:
+        db = None
         self.db = db.connection
         self.dbx = db
 
+    def __get_response(self, payload: Dict[str, str]) -> Dict[str, str]:
+        """
+        __get_response
+
+        Args:
+            payload (Dict[str, str]):
+
+        Returns:
+            Dict[str, str]
+        """
+        response: Dict[str, Any] = {
+            'status': ApiController.STATUS_OK,
+            'database': {
+                'name': 'Test Database',
+                'id': 0
+            },
+            'logs': [],
+            'payload': payload
+        }
+
+        return Utils.dict_to_json(response)
+
     def get_monitors(self) -> str:
-        return Utils.dict_to_json({
+        return self.__get_response({
             "BACKGROUND THREAD": [
                 "srv_master_thread loops: 111 srv_active, 0 srv_shutdown, 1606 srv_idle",
                 "srv_master_thread log flush and writes: 222"
@@ -238,7 +263,7 @@ class ApiMockController:
         })
 
     def get_variables(self) -> str:
-        return Utils.dict_to_json({
+        return self.__get_response({
             "sync_binlog": [
                 "<span class='span_number'>1</span>",
                 "<span class='span_number'>1</span>"
@@ -366,7 +391,7 @@ class ApiMockController:
         })
 
     def get_replication_data(self) -> str:
-        return Utils.dict_to_json({
+        return self.__get_response({
             "master_important_values": {
                 "File": "mysql-bin-log.1",
                 "Position": 12
@@ -454,7 +479,7 @@ class ApiMockController:
         })
 
     def get_overview(self) -> str:
-        return Utils.dict_to_json({
+        return self.__get_response({
             "active_processes": [
                 {
                     "ID": 1,
@@ -522,7 +547,7 @@ class ApiMockController:
         })
 
     def get_performance_schema(self) -> str:
-        return Utils.dict_to_json({
+        return self.__get_response({
             "top_long_queries": [
                 {
                     "digest_text": "INSERT INTO `test` . `test` ( `a` , `b` , `c` , `d` , `e` , `f` , `g` ) VALUES ( ?, ... , NOW ( ) , ?, ... ) ",
@@ -651,7 +676,7 @@ class ApiMockController:
         })
 
     def get_info_schema(self) -> str:
-        return Utils.dict_to_json({
+        return self.__get_response({
             "get_biggest_tables_chached": [
                 {
                     "Table": "test_table1",

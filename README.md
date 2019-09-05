@@ -8,9 +8,28 @@
 Electron-like MySQL Monitor including popular metrics based on `Information Schema`, `Performance Schema` 
 `MySQL Monitor Logs` and `Status logs`. 
 
-Program is written in Python, GUI is based on Program uses [EEL Library](https://github.com/ChrisKnott/Eela)
 
 ![picture](s-dba-img.png)
+
+
+
+## Table of Contents
+
+* [Key Features and priviledges](#key-features)
+* [Queries and Metrics](#queries-and-metrics)
+  * [Used MySQL queries](#used-mysql-queries)
+  * [Metrics calculation](#metrics-calculation)
+* [License](#license)
+* [Acknowledgments](#acknowledgments)
+* [Contributing](#contributing)
+* [Useful links](#useful-links)
+* [Authors](#authors)
+
+### Built With
+Program is written in Python and ReactJS, GUI is based on uses EEL Library.
+* [Python 3.6](https://www.python.org/)
+* [EEL](https://github.com/ChrisKnott/Eel)
+* [ReactJS](https://reactjs.org/)
 
 ---
 ## Key Features
@@ -24,20 +43,20 @@ Program is written in Python, GUI is based on Program uses [EEL Library](https:/
 	- info about logs (settings, file names and locations)
 	- general commands statistics 
 	- some other info and stats
-	    ##### Required permissions
-        | Priviledge | Context | Performed actions | Info |
-        | :---         |     :---:      |         :---: | :---: |
-        | [ [ PROCESS ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_process)   | Server administration     | SELECT/READ ONLY    | [NL] |
-        | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select)  + DB [ [ information_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/information-schema.html) access | Tables or columns     | SELECT/READ ONLY    | [NL] |
+    ##### Required permissions
+    | Priviledge | Context | Performed actions | Info |
+    | :---         |     :---:      |         :---: | :---: |
+    | [ [ PROCESS ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_process)   | Server administration     | SELECT/READ ONLY    | [NL] |
+    | [ [ SELECT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select)  + DB [ [ information_schema ] ](https://dev.mysql.com/doc/refman/8.0/en/information-schema.html) access | Tables or columns     | SELECT/READ ONLY    | [NL] |
 
 
 2. Settings & Variables - general info about all DB settings splitted per session and global scopes
 	- system settings & properties
 	- session settings & properties
-		##### Required permissions
-        | Priviledge | Context | Performed actions | Info |
-        | :---         |     :---:      |         :---: | :---: |
-        | Any - does not require any special rights | Any     | SHOW VARIABLES   | -  |
+    ##### Required permissions
+    | Priviledge | Context | Performed actions | Info |
+    | :---         |     :---:      |         :---: | :---: |
+    | Any - does not require any special rights | Any     | SHOW VARIABLES   | -  |
 
 3. Replication - info about replication
 	- Master and Slave status 
@@ -47,10 +66,10 @@ Program is written in Python, GUI is based on Program uses [EEL Library](https:/
 	- latest I/O and SQL errors
 	- replication delay 
 	- other info
-		##### Required permissions
-        | Priviledge | Context | Performed actions | Info |
-        | :---         |     :---:      |         :---: | :---: |
-        | [ [ SUPER ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_super) or [ [ REPLICATION CLIENT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_replication-client)  | Server administration     | SHOW STATUS   | [M] |
+    ##### Required permissions
+    | Priviledge | Context | Performed actions | Info |
+    | :---         |     :---:      |         :---: | :---: |
+    | [ [ SUPER ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_super) or [ [ REPLICATION CLIENT ] ](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_replication-client)  | Server administration     | SHOW STATUS   | [M] |
 
 4. InnoDB Monitor - status of InnoDb engine
     - latest transactions
@@ -103,7 +122,7 @@ Program is written in Python, GUI is based on Program uses [EEL Library](https:/
 
 
 ## Queries and Metrics
-#### Used MySQL queries
+### Used MySQL queries
 
 Some examples of MySQL queries the program uses for obtaining data from DB.
 
@@ -284,7 +303,7 @@ SELECT @@max_connections;
 
 
 
-#### Metrics calculation
+### Metrics calculation
 
 ##### Buffer pool efficiency
 ```matlab
@@ -312,9 +331,10 @@ round(["Qcache_hits"] / (["Qcache_hits"] + ["Com_select"]), 2) * 100
 ```
 
 
-## Authors
 
-* **Slawomir Hadas** - *author* - [Github](https://github.com/hadasbro)
+## License
+Distributed under the MIT License. See `LICENSE` for more information.
+
 
 ## Acknowledgments
 + [Eel](https://github.com/ChrisKnott/Eel) Electron-like offline HTML/JS GUI apps
@@ -322,7 +342,12 @@ round(["Qcache_hits"] / (["Qcache_hits"] + ["Com_select"]), 2) * 100
 + [MySQL](https://dev.mysql.com) Community
 
 ## Useful links
-+ [Deling with deadlocks - Percona](https://www.percona.com/blog/2014/10/28/how-to-deal-with-mysql-deadlocks/) Community & Forum
-+ [MySQL Documentation](https://dev.mysql.com/) 
++ [Deling with deadlocks](https://www.percona.com/blog/2014/10/28/how-to-deal-with-mysql-deadlocks/) - Percona Community & Forum
++ [MySQL Documentation](https://dev.mysql.com/) - MySQL Docs
+
+
+## Authors
+
+* **Slawomir Hadas** - *author* - [Github](https://github.com/hadasbro)
 
 ---

@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Union
 
-from core.commons.dbs import DBS
+from core.commons.tiny_dbs import TinyDBS
 from core.commons.utils import Utils
 from core.models.info_schema import InfoSchema
 from core.models.monitors import MonitorDedlock, Monitors, MonitorBackground, MonitorSemaphores, \
@@ -13,18 +13,48 @@ from core.models.variables import MySQLVariables
 
 class ApiController:
 
-    def __init__(self, db: DBS) -> None:
+    STATUS_OK: int = 1
+    STATUS_NO_DB: int = 2
+    STATUS_ERROR: int = 3
+
+    def __init__(self) -> None:
         """
         __init__
-
-        Args:
-            db (DBS):
 
         Returns:
             None
         """
-        self.db = db.connection
+        tiny_db = TinyDBS()
+        ldb = tiny_db.get_latest_db()
+
+        print(ldb)
+        db = None
         self.dbx = db
+
+
+    def __get_response(self, payload: Dict[str, str]) -> Dict[str, str]:
+        """
+        __get_response
+
+        Args:
+            payload (Dict[str, str]):
+
+        Returns:
+            Dict[str, str]
+        """
+        response: Dict[str, Any] = {
+            'status': self.STATUS_ERROR,
+            'message': "",
+            'database': {
+                'name': '',
+                'id': 0
+            },
+            'logs': [],
+            'payload': payload
+        }
+
+        return Utils.dict_to_json(response)
+
 
     def get_monitors(self) -> str:
         """
@@ -44,7 +74,7 @@ class ApiController:
             MonitorDedlock()
         )
 
-        return Utils.dict_to_json(dbStatus.get_partial_monitors_result())
+        return self.__get_response(dbStatus.get_partial_monitors_result())
 
     def get_variables(self) -> str:
         """
@@ -54,7 +84,7 @@ class ApiController:
             str: result as json
         """
         mv = MySQLVariables(self.dbx)
-        return Utils.dict_to_json(mv.get_all_variables())
+        return self.__get_response(mv.get_all_variables())
 
     def get_replication_data(self) -> str:
         """
@@ -64,7 +94,7 @@ class ApiController:
             str: result as json
         """
         mv = MysqlReplication(self.dbx)
-        return Utils.dict_to_json(mv.get_replication_log())
+        return self.__get_response(mv.get_replication_log())
 
     def get_overview(self) -> str:
         """
@@ -84,8 +114,7 @@ class ApiController:
             "get_logs_info": mv.get_logs_info()
         }
 
-        print(res)
-        return Utils.dict_to_json(res)
+        return self.__get_response(res)
 
     def get_performance_schema(self) -> str:
         """
@@ -101,7 +130,7 @@ class ApiController:
             "index_stats_for_top_tables": pes.get_index_stats_for_top_tables()
         }
 
-        return Utils.dict_to_json(res)
+        return self.__get_response(res)
 
     def get_info_schema(self) -> str:
         """
@@ -122,4 +151,4 @@ class ApiController:
             "get_tables_without_pk_cached": tables_without_pk
         }
 
-        return Utils.dict_to_json(res)
+        return self.__get_response(res)

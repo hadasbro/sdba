@@ -1,7 +1,7 @@
 # MONITORS
 from typing import Any, Dict, List
 
-from core.commons.dbs import DBS, DBS_fetch_types
+from core.commons.dbs import DBS, dbs_fetch_types
 from core.commons.memoizer import Memoize
 from core.interfaces.loggable import Loggable
 from core.models.base_model import BaseModel
@@ -13,6 +13,7 @@ class InfoSchema(BaseModel, InfoSchemaSql, Loggable):
     def __init__(self, db: DBS) -> None:
         """
         __init__
+
         Args:
             db (DBS):
 
@@ -78,7 +79,7 @@ class InfoSchema(BaseModel, InfoSchemaSql, Loggable):
         Returns:
             List[Dict[str, Any]]: list
         """
-        result = self.db.fetchAll(self.get_biggest_tables_sql, DBS_fetch_types.ASSOC, (limit,))
+        result = self.db.fetchAll(self.get_biggest_tables_sql, dbs_fetch_types.ASSOC, (limit,))
 
         return result
 
@@ -89,7 +90,7 @@ class InfoSchema(BaseModel, InfoSchemaSql, Loggable):
         Returns:
             List[Dict[str, Any]]: list
         """
-        result = self.db.fetchAll(self.get_size_per_engine_sql, DBS_fetch_types.ASSOC, (5,))
+        result = self.db.fetchAll(self.get_size_per_engine_sql, dbs_fetch_types.ASSOC, (5,))
         return result
 
     def get_tables_without_pk(self, limit: int = 10) -> List[Dict[str, Any]]:
@@ -102,6 +103,6 @@ class InfoSchema(BaseModel, InfoSchemaSql, Loggable):
         Returns:
             List[Dict[str, Any]]: list
         """
-        result = self.db.fetchAll(self.get_tables_without_pk_sql, DBS_fetch_types.ASSOC, (limit,))
+        result = self.db.fetchAll(self.get_tables_without_pk_sql, dbs_fetch_types.ASSOC, (limit,))
 
         return result

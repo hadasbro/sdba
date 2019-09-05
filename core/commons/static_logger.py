@@ -37,6 +37,7 @@ class StaticLogger:
 def log_objects(obj) -> None:
     """
     log_objects
+
     Args:
         obj (): -
 

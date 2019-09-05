@@ -9,6 +9,7 @@ class Memoize():
     def __init__(self, func: Callable[..., Any]) -> None:
         """
         __init__
+
         Args:
             func (Callable[..., Any]): -
         """

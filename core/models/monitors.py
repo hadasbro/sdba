@@ -56,6 +56,7 @@ class Monitor(BaseModel, MonitorsSql, Loggable):
     def __init__(self) -> None:
         """
         __init__
+
         """
         super().__init__()
         self._result_composed: str = None
@@ -346,6 +347,7 @@ class MonitorDedlock(Monitor):
     def __init__(self) -> None:
         """
         __init__
+
         """
         super().__init__()
         self.set = None
@@ -503,6 +505,7 @@ class MonitorBufferAndMemory(Monitor):
     def __init__(self) -> None:
         """
         __init__
+
         """
         super().__init__()
 
@@ -513,6 +516,7 @@ class MonitorBufferHash(Monitor):
     def __init__(self) -> None:
         """
         __init__
+
         """
         super().__init__()
 
@@ -523,6 +527,7 @@ class MonitorBufferIndyvidualy(Monitor):
     def __init__(self) -> None:
         """
         __init__
+
         """
         super().__init__()
 
@@ -533,6 +538,7 @@ class MonitorFile(Monitor):
     def __init__(self) -> None:
         """
         __init__
+
         """
         super().__init__()
 
@@ -552,6 +558,7 @@ class MonitorLatestForeign(Monitor):
     def __init__(self) -> None:
         """
         __init__
+
         """
         super().__init__()
         self.set = None
@@ -756,6 +763,7 @@ class MonitorLog(Monitor):
     def __init__(self) -> None:
         """
         __init__
+
         """
         super().__init__()
 
@@ -766,6 +774,7 @@ class MonitorRowOperations(Monitor):
     def __init__(self) -> None:
         """
         __init__
+
         """
         super().__init__()
 
@@ -776,5 +785,6 @@ class MonitorSemaphores(Monitor):
     def __init__(self) -> None:
         """
         __init__
+
         """
         super().__init__()
