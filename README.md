@@ -1,4 +1,4 @@
-## S - DBA
+# S - DBA
 
 ![picture](https://img.shields.io/badge/Python-3.6%2B-green)
 ![picture](https://img.shields.io/badge/License-MIT-blue)
@@ -342,7 +342,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 + [MySQL](https://dev.mysql.com) Community
 
 ## Useful links
-+ [Deling with deadlocks](https://www.percona.com/blog/2014/10/28/how-to-deal-with-mysql-deadlocks/) - Percona Community & Forum
++ [Dealing with deadlocks](https://www.percona.com/blog/2014/10/28/how-to-deal-with-mysql-deadlocks/) - Percona Community & Forum
 + [MySQL Documentation](https://dev.mysql.com/) - MySQL Docs
 
 
