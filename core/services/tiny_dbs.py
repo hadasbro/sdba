@@ -4,8 +4,9 @@ from typing import Any, Union
 from tinydb import TinyDB, Query
 
 from core.commons import log_objects
-from core.commons.dbs import db_credentials
-from core.commons.hasher import Hasher
+from core.objects.dbs_credentials import DBSCredentials
+from core.services.hasher import Hasher
+from core.exceptions.db_not_found_exception import DbNotFoundException
 from core.interfaces.singleton import Singleton
 
 
@@ -47,12 +48,12 @@ class TinyDBS(metaclass=Singleton):
             raise e
 
 
-    def add_new_db(self, db: db_credentials) -> None:
+    def add_new_db(self, db: DBSCredentials) -> None:
         """
         add_new_db
 
         Args:
-            db (db_credentials):
+            db (DBSCredentials):
 
         Returns:
             None
@@ -74,7 +75,7 @@ class TinyDBS(metaclass=Singleton):
             log_objects(e)
             raise e
 
-    def get_db_by_id(self, ldb_id: int) -> Union[db_credentials, None]:
+    def get_db_by_id(self, ldb_id: int) -> DBSCredentials:
         """
         get_db_by_id
 
@@ -82,12 +83,15 @@ class TinyDBS(metaclass=Singleton):
             ldb_id (int):
 
         Returns:
-            Union[db_instance, None]: db
+            DBSCredentials: db
+
+        Raises:
+            DbNotFoundException: exc
         """
-        dbi: db_credentials = self.tdb_tbl_databases.search(Query().id == ldb_id)
+        dbi: DBSCredentials = self.tdb_tbl_databases.search(Query().id == ldb_id)
 
         if not dbi:
-            return None
+            raise DbNotFoundException()
 
         db_data = dbi[0]
 
@@ -96,30 +100,35 @@ class TinyDBS(metaclass=Singleton):
 
         encoded = Hasher.decode_data(db_hashed)
 
-        return db_credentials.from_dict(encoded)
+        return DBSCredentials.from_dict(encoded)
 
-    def get_latest_db(self) -> Union[db_credentials, None]:
+    def get_latest_db(self) -> DBSCredentials:
         """
         get_latest_db
 
         Returns:
-            Union[db_instance, None]: db
+            DBSCredentials: db
+
+        Raises:
+            DbNotFoundException: exc
+
         """
+
         db_id: int = self.tdb_tbl_latest_dbs.search(Query().last_db_id == 1)
 
         if not db_id:
-            return None
+            raise DbNotFoundException()
 
         ldb_id = db_id[0]['id']
 
         return self.get_db_by_id(ldb_id)
 
-    def set_latest_db(self, db: db_credentials) -> None:
+    def set_latest_db(self, db: DBSCredentials) -> None:
         """
         set_latest_db
 
         Args:
-            db (db_credentials): db
+            db (DBSCredentials): db
 
         Returns:
             None
