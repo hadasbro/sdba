@@ -4,13 +4,13 @@ from copy import deepcopy
 from typing import Any, List, Dict, Tuple
 
 from core.commons import log_objects
-from core.commons.dbs import DBS
 from core.commons.regexper import Regexper
 from core.commons.utils import Utils
 from core.interfaces.base import Base
 from core.interfaces.loggable import Loggable
 from core.models.base_model import BaseModel
 from core.models.sql_traits.monitors_sql import MonitorsSql
+from core.services.dbs import DBS
 
 
 class Monitor(BaseModel, MonitorsSql, Loggable):

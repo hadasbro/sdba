@@ -2,7 +2,7 @@
 from typing import Any, Dict, Tuple
 
 from core.commons import log_objects
-from core.commons.dbs import DBS
+from core.services.dbs import DBS
 from core.commons.htmlizer import HtmlIzer
 from core.interfaces.loggable import Loggable
 from core.models.base_model import BaseModel
@@ -88,4 +88,5 @@ class MySQLVariables(BaseModel, VariablesSql, Loggable):
             return _res
 
         except Exception as e:
+            return {}
             log_objects(e)

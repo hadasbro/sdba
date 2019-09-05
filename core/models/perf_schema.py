@@ -1,7 +1,7 @@
 # MONITORS
 from typing import Any, Dict, List
 
-from core.commons.dbs import dbs_fetch_types, DBS
+from core.services.dbs import DSBFetchTypes, DBS
 from core.interfaces.loggable import Loggable
 from core.models.base_model import BaseModel
 from core.models.sql_traits.perf_schema_sql import PerfSchemaSql
@@ -41,7 +41,7 @@ class PerformanceSchema(BaseModel, PerfSchemaSql, Loggable):
             List[Dict[str, Any]]: list
 
         """
-        result = self.db.fetchAll(self.get_top_long_queries_sql, dbs_fetch_types.ASSOC, (limit,))
+        result = self.db.fetchAll(self.get_top_long_queries_sql, DSBFetchTypes.ASSOC, (limit,))
 
         return result
 
@@ -57,7 +57,7 @@ class PerformanceSchema(BaseModel, PerfSchemaSql, Loggable):
             List[Dict[str, Any]]: list
 
         """
-        result = self.db.fetchAll(self.get_top_long_updates_sql, dbs_fetch_types.ASSOC, (days_back, days_back, limit))
+        result = self.db.fetchAll(self.get_top_long_updates_sql, DSBFetchTypes.ASSOC, (days_back, days_back, limit))
 
         return result
 
@@ -72,7 +72,7 @@ class PerformanceSchema(BaseModel, PerfSchemaSql, Loggable):
             List[Dict[str, Any]]: list
 
         """
-        all = self.db.fetchAll(self.get_index_stats_for_top_tables_sql, dbs_fetch_types.ROW)
+        all = self.db.fetchAll(self.get_index_stats_for_top_tables_sql, DSBFetchTypes.ROW)
         res: Dict[str, Any] = {}
         for i in all:
             k = i[0] + '.' + i[1]

@@ -2,7 +2,7 @@
 from typing import Any, Dict
 
 from core.commons import log_objects
-from core.commons.dbs import DBS, dbs_fetch_types
+from core.services.dbs import DBS, DSBFetchTypes
 from core.interfaces.loggable import Loggable
 from core.models.base_model import BaseModel
 from core.models.sql_traits.replication_sql import ReplicationSql
@@ -84,7 +84,7 @@ class MysqlReplication(BaseModel, ReplicationSql, Loggable):
         """
 
         try:
-            result = self.db.fetchOne(self.get_master_status_sql, dbs_fetch_types.ASSOC)
+            result = self.db.fetchOne(self.get_master_status_sql, DSBFetchTypes.ASSOC)
             return result
         except Exception as e:
             log_objects(e)
@@ -98,7 +98,7 @@ class MysqlReplication(BaseModel, ReplicationSql, Loggable):
         """
 
         try:
-            result = self.db.fetchOne(self.get_slave_status_sql, dbs_fetch_types.ASSOC)
+            result = self.db.fetchOne(self.get_slave_status_sql, DSBFetchTypes.ASSOC)
             return result
         except Exception as e:
             log_objects(e)
