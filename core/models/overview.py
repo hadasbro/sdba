@@ -71,8 +71,11 @@ class Overview(BaseModel, OverviewSql, Loggable):
         }
         res = self.db.fetchAll(self.get_keys_hit_rate_sql, DSBFetchTypes.ROW)
         all = dict(map(lambda el: (el[0], int(el[1])), res))
-        result["read_effic"] = int(round(1 - all["Key_reads"] / all["Key_read_requests"], 2) * 100)
-        result["write_effic"] = int(round(1 - all["Key_writes"] / all["Key_write_requests"], 2) * 100)
+
+        result["read_effic"] = 0 if all["Key_reads"] == 0 else \
+            int(round(1 - all["Key_reads"] / all["Key_read_requests"], 2) * 100)
+        result["write_effic"] = 0 if all["Key_writes"] == 0 else \
+            int(round(1 - all["Key_writes"] / all["Key_write_requests"], 2) * 100)
 
         return result
 

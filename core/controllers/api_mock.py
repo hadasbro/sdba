@@ -1,15 +1,15 @@
 from typing import Dict, Any
 
-from core.commons.utils import Utils
 from core.controllers import ApiController
+from core.controllers.base import BaseController
 
 
-class ApiMockController:
+class ApiMockController(BaseController):
 
     def __init__(self) -> None:
         pass
 
-    def __get_response(self, payload: Dict[str, str]) -> Dict[str, str]:
+    def __get_response(self, payload: Dict[str, str]) -> Dict[str, Any]:
         """
         __get_response
 
@@ -29,9 +29,9 @@ class ApiMockController:
             'payload': payload
         }
 
-        return Utils.dict_to_json(response)
+        return response
 
-    def get_monitors(self) -> str:
+    def get_monitors(self) -> Dict[str, Any]:
         return self.__get_response({
             "BACKGROUND THREAD": [
                 "srv_master_thread loops: 111 srv_active, 0 srv_shutdown, 1606 srv_idle",
@@ -260,7 +260,7 @@ class ApiMockController:
             ]
         })
 
-    def get_variables(self) -> str:
+    def get_variables(self) -> Dict[str, Any]:
         return self.__get_response({
             "sync_binlog": [
                 "<span class='span_number'>1</span>",
@@ -388,7 +388,7 @@ class ApiMockController:
             ]
         })
 
-    def get_replication_data(self) -> str:
+    def get_replication_data(self) -> Dict[str, Any]:
         return self.__get_response({
             "master_important_values": {
                 "File": "mysql-bin-log.1",
@@ -476,7 +476,7 @@ class ApiMockController:
             "conslusion": "conslusion"
         })
 
-    def get_overview(self) -> str:
+    def get_overview(self) -> Dict[str, Any]:
         return self.__get_response({
             "active_processes": [
                 {
@@ -544,7 +544,7 @@ class ApiMockController:
             }
         })
 
-    def get_performance_schema(self) -> str:
+    def get_performance_schema(self) -> Dict[str, Any]:
         return self.__get_response({
             "top_long_queries": [
                 {
@@ -673,7 +673,7 @@ class ApiMockController:
             }
         })
 
-    def get_info_schema(self) -> str:
+    def get_info_schema(self) -> Dict[str, Any]:
         return self.__get_response({
             "get_biggest_tables_chached": [
                 {

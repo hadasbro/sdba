@@ -1,12 +1,10 @@
 from enum import Enum
 from typing import Union, Tuple, Dict, Any, List
 
-import MySQLdb
 from mysql.connector import Error, MySQLConnection
 
 from core.commons import log_objects
 from core.commons.query_log import QueryLog
-# from core.objects.dbs_credentials import DBSCredentials
 
 
 class DBSFetchNum(Enum):
@@ -19,8 +17,7 @@ class DSBFetchTypes(Enum):
     ROW = "ROW"
 
 
-
-class DBS():
+class DBS:
 
     @property
     def connected(self) -> bool:
@@ -50,7 +47,7 @@ class DBS():
     def connection(self, rc: Union[MySQLConnection, None]) -> Union[MySQLConnection, None]:
         self._connection = rc
 
-    def __init__(self, credentials) -> None:
+    def __init__(self, credentials=None) -> None:
         """
         __init__
 
@@ -58,12 +55,16 @@ class DBS():
 
         try:
 
-            db_instance = MySQLdb.connect(host=credentials.get_host(),
-                                          user=credentials.get_user(),
-                                          passwd=credentials.get_password())
+            mysql_con = MySQLConnection()
+
+            mysql_con.connect(
+                host=credentials.get_host(),
+                user=credentials.get_user(),
+                passwd=credentials.get_password()
+            )
 
             self._connected = True
-            self._connection: db_instance
+            self._connection = mysql_con
 
         except Error as e:
             log_objects(e)
@@ -78,6 +79,7 @@ class DBS():
             fetch_type: DSBFetchTypes = DSBFetchTypes.ROW,
             params: Tuple[Union[str, int, float]] = ()
     ) -> Union[List[Dict[str, Any]], Dict[str, Any]]:
+
         """
         __fetch
 
@@ -95,6 +97,7 @@ class DBS():
 
         cursor = self._connection.cursor()
         cursor.execute(query, params)
+
         if fetch_num == DBSFetchNum.ONE:
             res = cursor.fetchone()
         else:

@@ -1,13 +1,10 @@
 import json
 from enum import Enum
 from typing import Dict, Any, Union
-
 from core.commons.utils import Utils
-# from core.interfaces.json_serializable import JsonSerializable, Dicteadble
-# JsonSerializable, Dicteadble
 
-class DBSCredentials():
 
+class DBSCredentials:
     class TYPE(Enum):
         MYSQL = 1
 
@@ -16,6 +13,7 @@ class DBSCredentials():
 
     def __init__(self,
                  id: int,
+                 name: str,
                  host: str,
                  user: str,
                  password: str,
@@ -28,6 +26,7 @@ class DBSCredentials():
 
         Args:
             id (int): -
+            name (name):  -
             host (str):  -
             user (str):  -
             password (str):  -
@@ -36,8 +35,9 @@ class DBSCredentials():
             ssl (bool):  -
         """
         self.__id: int = id
+        self.__name: str = name
         self.__host: str = host
-        self.__type: TYPE = type
+        self.__type: DBSCredentials.TYPE = type
         self.__user: str = user
         self.__password: str = password
         self.__port: int = port
@@ -51,6 +51,15 @@ class DBSCredentials():
             int
         """
         return self.__id
+
+    def get_name(self) -> str:
+        """
+        get_name
+
+        Returns:
+            str
+        """
+        return self.__name
 
     def get_host(self) -> str:
         """
@@ -66,7 +75,7 @@ class DBSCredentials():
         get_type
 
         Returns:
-            db_instance.TYPE
+            DBSCredentials.TYPE
         """
         return self.__type
 
@@ -142,6 +151,7 @@ class DBSCredentials():
         """
         return {
             'id': self.get_id(),
+            'name': self.get_name(),
             'host': self.get_host(),
             'user': self.get_user(),
             'password': self.get_password(),
@@ -164,6 +174,7 @@ class DBSCredentials():
         try:
             return DBSCredentials(
                 dval['id'],
+                dval['name'],
                 dval['host'],
                 dval['user'],
                 dval['password'],
