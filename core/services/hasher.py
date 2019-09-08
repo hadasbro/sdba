@@ -1,6 +1,7 @@
 import re
 from typing import Any
 from core import Program
+from core.commons import log_objects
 from core.interfaces.singleton import Singleton
 from cryptography.fernet import Fernet
 
@@ -25,7 +26,7 @@ class Hasher(metaclass=Singleton):
         """
         f = Fernet(self.__crypto_key)
         decrypted = f.decrypt(estr.encode(Program.ENCODING))
-        return decrypted
+        return decrypted.decode(Program.ENCODING)
 
     def _hash(self, estr: str) -> str:
         """
@@ -55,31 +56,41 @@ class Hasher(metaclass=Singleton):
         hasher_tag: str = self.WRAP_REGEX.split('{')[0]
 
         def decode(estr: str) -> str:
-            if hasher_tag not in str(estr):
-                return estr
-            else:
-                patters: str = self.WRAP_REGEX.replace("{", "").replace("}", "")
-                m = re.search(patters, estr)
-                if m:
-                    found = m.group(1)
-                    return self._unhash(found)
-                elif estr == self.WRAP_REGEX.replace("{(.+?)}", ""):
-                    return ""
+            try:
+
+                if hasher_tag not in str(estr):
+                    return estr
                 else:
+                    patters: str = self.WRAP_REGEX.replace("{", "").replace("}", "")
+                    m = re.search(patters, estr)
+                    if m:
+                        found = m.group(1)
+                        return self._unhash(found)
+                    elif estr == self.WRAP_REGEX.replace("{(.+?)}", ""):
+                        return ""
+                    else:
+                        return estr
+
                     return estr
 
-                return estr
+            except Exception as ex:
+                log_objects(ex)
 
-        if isinstance(strdata, dict):
-            ndct = {}
-            for k, v in strdata.items():
-                if isinstance(v, dict):
-                    ndct[k] = v
-                else:
-                    ndct[k] = decode(v)
-            return ndct
-        else:
-            return decode(strdata)
+        try:
+            if isinstance(strdata, dict):
+                ndct = {}
+                for k, v in strdata.items():
+                    if isinstance(v, dict):
+                        ndct[k] = v
+                    else:
+                        ndct[k] = decode(v)
+                return ndct
+            else:
+                return decode(strdata)
+
+        except Exception as e:
+            log_objects(e)
+
 
     def encode_data(self, strdata: Any) -> str:
         """

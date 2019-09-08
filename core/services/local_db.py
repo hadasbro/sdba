@@ -1,14 +1,14 @@
 from functools import reduce
-from pathlib import Path
-from typing import Any, Union, List, Dict
+from typing import List, Dict
 
 from tinydb import TinyDB, Query
 
+from core import Program
 from core.commons import log_objects
-from core.objects.dbs_credentials import DBSCredentials
-from core.services.hasher import Hasher
 from core.exceptions.db_not_found_exception import DbNotFoundException
 from core.interfaces.singleton import Singleton
+from core.objects.dbs_credentials import DBSCredentials
+from core.services.hasher import Hasher
 
 
 class TinyDBS(metaclass=Singleton):
@@ -28,15 +28,9 @@ class TinyDBS(metaclass=Singleton):
 
         """
 
-        relative: Union[Path, Any] = Path(__file__)
-
-        absolute = relative.resolve().parents[2] \
-            .joinpath(self._DDATA_PATH) \
-            .joinpath(self._DATA_FILE)
-
         try:
             self.hasher = Hasher()
-            self.tdb_db = TinyDB(absolute)
+            self.tdb_db = TinyDB(Program.sdba_apath.joinpath(self._DATA_FILE))
             self.tdb_tbl_databases = self.tdb_db.table('databases')
             self.tdb_tbl_latest_dbs = self.tdb_db.table('tdb_tbl_latest_dbs')
 
@@ -94,9 +88,8 @@ class TinyDBS(metaclass=Singleton):
         def map_to_dbcred(db_data):
             db_hashed: str = db_data['hashed_data']
             encoded = self.hasher.decode_data(db_hashed)
+            encoded['password'] = "***"
             return DBSCredentials.from_dict(encoded)
-
-        allDbs: List[DBSCredentials] = []
 
         dbi: List[Dict[str, str]] = self.tdb_tbl_databases.all()
 
@@ -120,7 +113,7 @@ class TinyDBS(metaclass=Singleton):
         dbi: DBSCredentials = self.tdb_tbl_databases.search(Query().id == ldb_id)
 
         if not dbi:
-            raise DbNotFoundException()
+            raise DbNotFoundException("Database not found")
 
         db_data = dbi[0]
 
@@ -146,7 +139,7 @@ class TinyDBS(metaclass=Singleton):
         db_id: int = self.tdb_tbl_latest_dbs.search(Query().last_db_id == 1)
 
         if not db_id:
-            raise DbNotFoundException()
+            raise DbNotFoundException("Daatabase not found")
 
         ldb_id = db_id[0]['id']
 

@@ -79,3 +79,14 @@ class OverviewSql(ABC):
 
         """
         return "SHOW GLOBAL VARIABLES LIKE 'log%'"
+
+    @property
+    def selest_from_test_db_sql(self) -> str:
+        """
+        get_logs_info_sql
+
+        Returns:
+            str: plain SQL
+
+        """
+        return "SELECT * FROM test.test LIMIT 1"

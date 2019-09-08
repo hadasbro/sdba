@@ -7,6 +7,11 @@ from core.models.base_model import BaseModel
 from core.models.monitors import Monitor
 
 
+def subscribe_logger(log: str):
+    # print(log)
+    pass
+
+
 @log_objects.register(Monitor)
 def _(*obj: Monitor):
     """
@@ -19,7 +24,7 @@ def _(*obj: Monitor):
 
     """
     try:
-        StaticLogger.log(obj, lambda uobj: print("Loading data for {} section".format(uobj.get_as_string())))
+        StaticLogger.log(obj, lambda uobj: subscribe_logger("Loading data for {} section".format(uobj.get_as_string())))
     except Exception as e:
         log_objects(e)
 
@@ -36,7 +41,7 @@ def _(obj: BaseModel):
 
     """
     try:
-        StaticLogger.log([obj], lambda uobj: print("Loading section: {}".format(uobj.get_as_string())))
+        StaticLogger.log([obj], lambda uobj: subscribe_logger("Loading section: {}".format(uobj.get_as_string())))
     except Exception as e:
         log_objects(e)
 
@@ -55,7 +60,7 @@ def _(*obj: Exception):
     try:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-        StaticLogger.log(obj, lambda uobj: print("[ Exception/Error ]: " + uobj.__str__(),
+        StaticLogger.log(obj, lambda uobj: print("[ Exception/Error ]: " + str(uobj),
                                                  (exc_type, fname, exc_tb.tb_lineno)))
     except Exception as e:
         log_objects(e)
@@ -73,6 +78,6 @@ def _(obj: QueryLog):
 
     """
     try:
-        StaticLogger.log([obj], lambda uobj: print("[ SQL QUERY ]: " + obj.__str__()))
+        StaticLogger.log([obj], lambda uobj: subscribe_logger("[ SQL QUERY ]: " + str(obj)))
     except Exception as e:
         log_objects(e)

@@ -91,22 +91,10 @@ def eel_mock_get_info_schema() -> str:
 
 
 result = eel_mock_get_overview()
-# result = eel_mock_get_monitors()
-# result = eel_mock_get_variables()
-# result = eel_mock_get_replication_data()
-# result = eel_mock_get_performance_schema()
-# result = eel_mock_get_info_schema()
+result = eel_mock_get_monitors()
+result = eel_mock_get_variables()
+result = eel_mock_get_replication_data()
+result = eel_mock_get_performance_schema()
+result = eel_mock_get_info_schema()
 
-print(type(result))
 print(result)
-
-
-#
-# def json_response(f):
-#     @wraps(f)
-#     def wrapped(*args, **kwargs):
-#         r = f(*args, **kwargs)
-#         r = str(r) + "xxxxxxxxxxxxx yyyyyyy"
-#         # r .... JSON
-#         return r
-#     return wrapped

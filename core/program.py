@@ -8,9 +8,9 @@ from cryptography.fernet import Fernet
 
 class Program:
     _SALT_PATH = "salt.txt"
-    _SALT_DIR = ".sdba"
+    _CONFIG_DIR = ".sdba"
     home: Path = Path.home()
-    sdba_apath: Path = home.resolve().joinpath(_SALT_DIR)
+    sdba_apath: Path = home.resolve().joinpath(_CONFIG_DIR)
     saltf_path: Path = sdba_apath.joinpath(_SALT_PATH)
     ENCODING: str = 'utf-8'
 

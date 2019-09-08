@@ -1,11 +1,12 @@
+from typing import Any, Dict
+
 from core.commons.decorators import json_response
-from core.commons.utils import Utils
 from core.controllers import ApiController
 from core.exceptions.payload_exception import PayloadException
 
 
 @json_response
-def eel_get_overview() -> str:
+def eel_get_overview() -> Dict[str, Any]:
     """
     eel_get_overview
 
@@ -16,11 +17,11 @@ def eel_get_overview() -> str:
         mc = ApiController()
         return mc.get_overview()
     except PayloadException as ex:
-        return Utils.dict_to_json(ex.payload)
+        return ex.payload
 
 
 @json_response
-def eel_get_monitors() -> str:
+def eel_get_monitors() -> Dict[str, Any]:
     """
     eel_get_monitors
 
@@ -31,11 +32,11 @@ def eel_get_monitors() -> str:
         mc = ApiController()
         return mc.get_monitors()
     except PayloadException as ex:
-        return Utils.dict_to_json(ex.payload)
+        return ex.payload
 
 
 @json_response
-def eel_get_variables() -> str:
+def eel_get_variables() -> Dict[str, Any]:
     """
     eel_get_variables
 
@@ -46,11 +47,11 @@ def eel_get_variables() -> str:
         mc = ApiController()
         return mc.get_variables()
     except PayloadException as ex:
-        return Utils.dict_to_json(ex.payload)
+        return ex.payload
 
 
 @json_response
-def eel_get_replication_data() -> str:
+def eel_get_replication_data() -> Dict[str, Any]:
     """
     eel_get_replication_data
 
@@ -61,11 +62,11 @@ def eel_get_replication_data() -> str:
         mc = ApiController()
         return mc.get_replication_data()
     except PayloadException as ex:
-        return Utils.dict_to_json(ex.payload)
+        return ex.payload
 
 
 @json_response
-def eel_get_performance_schema() -> str:
+def eel_get_performance_schema() -> Dict[str, Any]:
     """
     eel_get_performance_schema
         str
@@ -76,11 +77,11 @@ def eel_get_performance_schema() -> str:
         mc = ApiController()
         return mc.get_performance_schema()
     except PayloadException as ex:
-        return Utils.dict_to_json(ex.payload)
+        return ex.payload
 
 
 @json_response
-def eel_get_info_schema() -> str:
+def eel_get_info_schema() -> Dict[str, Any]:
     """
     eel_get_info_schema
 
@@ -91,14 +92,28 @@ def eel_get_info_schema() -> str:
         mc = ApiController()
         return mc.get_info_schema()
     except PayloadException as ex:
-        return Utils.dict_to_json(ex.payload)
+        return ex.payload
 
 
-# result = eel_get_overview()
-# result = eel_get_monitors()
-# result = eel_get_variables()
-# result = eel_get_replication_data()
-# result = eel_get_performance_schema()
+@json_response
+def eel_do_test_in_test_db() -> Dict[str, Any]:
+    """
+    eel_do_test_in_test_db
+
+    Returns:
+        str
+    """
+    try:
+        mc = ApiController()
+        return mc.selest_from_test_db()
+    except PayloadException as ex:
+        return ex.payload
+
+
+result = eel_get_overview()
+result = eel_get_monitors()
+result = eel_get_variables()
+result = eel_get_replication_data()
+result = eel_get_performance_schema()
 result = eel_get_info_schema()
-
-print(">>>>>>> data >>>>>>>", result)
+print(result)

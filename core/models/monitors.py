@@ -277,7 +277,7 @@ class Monitors(Base, MonitorsSql, BaseMonitors):
 
         except Exception as e:
             log_objects(e)
-            return ""
+            raise e
 
     def _parse_status_log(self) -> None:
         """

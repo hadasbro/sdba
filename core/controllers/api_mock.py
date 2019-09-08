@@ -9,9 +9,9 @@ class ApiMockController(BaseController):
     def __init__(self) -> None:
         pass
 
-    def __get_response(self, payload: Dict[str, str]) -> Dict[str, Any]:
+    def _get_response(self, payload: Dict[str, str]) -> Dict[str, Any]:
         """
-        __get_response
+        _get_response
 
         Args:
             payload (Dict[str, str]):
@@ -32,7 +32,7 @@ class ApiMockController(BaseController):
         return response
 
     def get_monitors(self) -> Dict[str, Any]:
-        return self.__get_response({
+        return self._get_response({
             "BACKGROUND THREAD": [
                 "srv_master_thread loops: 111 srv_active, 0 srv_shutdown, 1606 srv_idle",
                 "srv_master_thread log flush and writes: 222"
@@ -261,7 +261,7 @@ class ApiMockController(BaseController):
         })
 
     def get_variables(self) -> Dict[str, Any]:
-        return self.__get_response({
+        return self._get_response({
             "sync_binlog": [
                 "<span class='span_number'>1</span>",
                 "<span class='span_number'>1</span>"
@@ -389,7 +389,7 @@ class ApiMockController(BaseController):
         })
 
     def get_replication_data(self) -> Dict[str, Any]:
-        return self.__get_response({
+        return self._get_response({
             "master_important_values": {
                 "File": "mysql-bin-log.1",
                 "Position": 12
@@ -477,7 +477,7 @@ class ApiMockController(BaseController):
         })
 
     def get_overview(self) -> Dict[str, Any]:
-        return self.__get_response({
+        return self._get_response({
             "active_processes": [
                 {
                     "ID": 1,
@@ -545,7 +545,7 @@ class ApiMockController(BaseController):
         })
 
     def get_performance_schema(self) -> Dict[str, Any]:
-        return self.__get_response({
+        return self._get_response({
             "top_long_queries": [
                 {
                     "digest_text": "INSERT INTO `test` . `test` ( `a` , `b` , `c` , `d` , `e` , `f` , `g` ) VALUES ( ?, ... , NOW ( ) , ?, ... ) ",
@@ -674,7 +674,7 @@ class ApiMockController(BaseController):
         })
 
     def get_info_schema(self) -> Dict[str, Any]:
-        return self.__get_response({
+        return self._get_response({
             "get_biggest_tables_chached": [
                 {
                     "Table": "test_table1",

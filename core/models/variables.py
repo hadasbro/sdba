@@ -88,5 +88,5 @@ class MySQLVariables(BaseModel, VariablesSql, Loggable):
             return _res
 
         except Exception as e:
-            return {}
             log_objects(e)
+            raise e

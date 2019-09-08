@@ -1,6 +1,5 @@
 # MONITORS
 from typing import Any, Dict
-
 from core.commons import log_objects
 from core.services.dbs import DBS, DSBFetchTypes
 from core.interfaces.loggable import Loggable
@@ -91,6 +90,7 @@ class MysqlReplication(BaseModel, ReplicationSql, Loggable):
             return result
         except Exception as e:
             log_objects(e)
+            raise e
 
     def get_slave_status(self) -> Dict[str, Any]:
         """
@@ -105,3 +105,4 @@ class MysqlReplication(BaseModel, ReplicationSql, Loggable):
             return result
         except Exception as e:
             log_objects(e)
+            raise e

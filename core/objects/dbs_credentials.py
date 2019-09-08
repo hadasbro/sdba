@@ -140,7 +140,7 @@ class DBSCredentials:
         Returns:
             str
         """
-        return Utils.dict_to_json(self.__dict__)
+        return Utils.dict_to_json(self.get_as_dict())
 
     def get_as_dict(self) -> Dict[str, Any]:
         """

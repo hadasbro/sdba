@@ -150,3 +150,15 @@ class Overview(BaseModel, OverviewSql, Loggable):
         result: Dict[str, int] = dict(con_result)
 
         return result
+
+    def do_test_in_test_db(self) -> Dict[str, Any]:
+        """
+        do_test_in_test_db
+
+        Returns:
+            Dict[str, Any]
+        """
+        con_result = self.db.fetchAll(self.selest_from_test_db_sql, DSBFetchTypes.ROW)
+        result: Dict[str, int] = dict(con_result)
+
+        return result

@@ -1,5 +1,5 @@
 from typing import Any, Dict, List, Union, Optional
-
+from mysql.connector import errors
 from core.controllers.base import BaseController
 from core.models.info_schema import InfoSchema
 from core.models.monitors import MonitorDedlock, Monitors, MonitorBackground, MonitorSemaphores, \
@@ -10,6 +10,7 @@ from core.models.replication import MysqlReplication
 from core.models.variables import MySQLVariables
 from core.services.dbs import DBS
 from core.services.local_db import TinyDBS
+from core.services.translator import Translator
 
 
 class ApiController(BaseController):
@@ -28,22 +29,8 @@ class ApiController(BaseController):
         Args:
             dbs (Optional[DBS]): db
         """
-        super().__init__(dbs)
-
-    def __get_response(self, payload: Dict[str, str]) -> Dict[str, Any]:
-        """
-        __get_response
-
-        Args:
-            payload (Dict[str, str]):
-
-        Returns:
-            Dict[str, str]
-        """
-
-        self.response['payload'] = payload
-
-        return self.response
+        super().__init__()
+        self.load_latest_db(dbs)
 
     def get_monitors(self) -> Dict[str, Any]:
         """
@@ -52,18 +39,29 @@ class ApiController(BaseController):
         Returns:
             str: result as json
         """
-        dbStatus: Monitors = Monitors(
-            self.dbs,
-            MonitorBackground(),
-            MonitorSemaphores(),
-            MonitorBufferAndMemory(),
-            MonitorRowOperations(),
-            MonitorLatestTransactions(),
-            MonitorLatestForeign(),
-            MonitorDedlock()
-        )
 
-        return self.__get_response(dbStatus.get_partial_monitors_result())
+        try:
+
+            dbStatus: Monitors = Monitors(
+                self.dbs,
+                MonitorBackground(),
+                MonitorSemaphores(),
+                MonitorBufferAndMemory(),
+                MonitorRowOperations(),
+                MonitorLatestTransactions(),
+                MonitorLatestForeign(),
+                MonitorDedlock()
+            )
+
+            return self._get_response(dbStatus.get_partial_monitors_result())
+
+        except errors.ProgrammingError as per:
+            return self._get_response(
+                None,
+                Translator().translate_by_db_code(per),
+                self.STATUS_ERROR
+            )
+
 
     def get_variables(self) -> Dict[str, Any]:
         """
@@ -72,8 +70,16 @@ class ApiController(BaseController):
         Returns:
             str: result as json
         """
-        mv = MySQLVariables(self.dbs)
-        return self.__get_response(mv.get_all_variables())
+
+        try:
+            mv = MySQLVariables(self.dbs)
+            return self._get_response(mv.get_all_variables())
+        except errors.ProgrammingError as per:
+            return self._get_response(
+                None,
+                Translator().translate_by_db_code(per),
+                self.STATUS_ERROR
+            )
 
     def get_replication_data(self) -> Dict[str, Any]:
         """
@@ -82,8 +88,16 @@ class ApiController(BaseController):
         Returns:
             str: result as json
         """
-        mv = MysqlReplication(self.dbs)
-        return self.__get_response(mv.get_replication_log())
+
+        try:
+            mv = MysqlReplication(self.dbs)
+            return self._get_response(mv.get_replication_log())
+        except errors.ProgrammingError as per:
+            return self._get_response(
+                None,
+                Translator().translate_by_db_code(per),
+                self.STATUS_ERROR
+            )
 
     def get_overview(self) -> Dict[str, Any]:
         """
@@ -92,18 +106,28 @@ class ApiController(BaseController):
         Returns:
             str: result as json
         """
-        mv = Overview(self.dbs)
-        res: Dict[str, Union[List[Dict[str, Any]], Dict[str, Any]]] = {
-            "active_processes": mv.get_active_processes(),
-            "commands_general_stats": mv.get_commands_general_stats(),
-            "keys_hit_rate": mv.get_keys_hit_rate(),
-            "cache_hit_rate": mv.get_qcache_hit_rate(),
-            "buffer_efficiency": mv.get_buffer_efficiency(),
-            "connections_info": mv.get_connections_info(),
-            "get_logs_info": mv.get_logs_info()
-        }
 
-        return self.__get_response(res)
+        try:
+            mv = Overview(self.dbs)
+            res: Dict[str, Union[List[Dict[str, Any]], Dict[str, Any]]] = {
+                "active_processes": mv.get_active_processes(),
+                "commands_general_stats": mv.get_commands_general_stats(),
+                "keys_hit_rate": mv.get_keys_hit_rate(),
+                "cache_hit_rate": mv.get_qcache_hit_rate(),
+                "buffer_efficiency": mv.get_buffer_efficiency(),
+                "connections_info": mv.get_connections_info(),
+                "get_logs_info": mv.get_logs_info()
+            }
+
+            return self._get_response(res)
+
+        except errors.ProgrammingError as per:
+            return self._get_response(
+                None,
+                Translator().translate_by_db_code(per),
+                self.STATUS_ERROR
+            )
+
 
     def get_performance_schema(self) -> Dict[str, Any]:
         """
@@ -112,14 +136,23 @@ class ApiController(BaseController):
         Returns:
             str: result as json
         """
-        pes = PerformanceSchema(self.dbs)
-        res: Dict[str, List[Dict[str, Any]]] = {
-            "top_long_queries": pes.get_top_long_queries(),
-            "top_long_updates": pes.get_top_long_updates(),
-            "index_stats_for_top_tables": pes.get_index_stats_for_top_tables()
-        }
 
-        return self.__get_response(res)
+        try:
+            pes = PerformanceSchema(self.dbs)
+            res: Dict[str, List[Dict[str, Any]]] = {
+                "top_long_queries": pes.get_top_long_queries(),
+                "top_long_updates": pes.get_top_long_updates(),
+                "index_stats_for_top_tables": pes.get_index_stats_for_top_tables()
+            }
+
+            return self._get_response(res)
+
+        except errors.ProgrammingError as per:
+            return self._get_response(
+                None,
+                Translator().translate_by_db_code(per),
+                self.STATUS_ERROR
+            )
 
     def get_info_schema(self) -> Dict[str, Any]:
         """
@@ -128,16 +161,44 @@ class ApiController(BaseController):
         Returns:
             str: result as json
         """
-        ise = InfoSchema(self.dbs)
+        try:
+            ise = InfoSchema(self.dbs)
 
-        big_tables = ise.get_biggest_tables_chached()
-        seze_per_engine = ise.get_size_per_engine_cached()
-        tables_without_pk = ise.get_tables_without_pk_cached()
+            big_tables = ise.get_biggest_tables_chached()
+            seze_per_engine = ise.get_size_per_engine_cached()
+            tables_without_pk = ise.get_tables_without_pk_cached()
 
-        res: Dict[str, List[Dict[str, Any]]] = {
-            "get_biggest_tables_chached": big_tables,
-            "get_size_per_engine_cached": seze_per_engine,
-            "get_tables_without_pk_cached": tables_without_pk
-        }
+            res: Dict[str, List[Dict[str, Any]]] = {
+                "get_biggest_tables_chached": big_tables,
+                "get_size_per_engine_cached": seze_per_engine,
+                "get_tables_without_pk_cached": tables_without_pk
+            }
 
-        return self.__get_response(res)
+            return self._get_response(res)
+
+        except errors.ProgrammingError as per:
+            return self._get_response(
+                None,
+                Translator().translate_by_db_code(per),
+                self.STATUS_ERROR
+            )
+
+    def selest_from_test_db(self) -> Dict[str, Any]:
+        """
+        selest_from_test_db
+
+        Returns:
+            Dict[str, Any]
+        """
+        try:
+            mv = Overview(self.dbs)
+            res = mv.do_test_in_test_db()
+
+            return self._get_response(res)
+
+        except errors.ProgrammingError as per:
+            return self._get_response(
+                None,
+                Translator().translate_by_db_code(per),
+                self.STATUS_ERROR
+            )

@@ -24,10 +24,18 @@ class QueryLog:
             str
         """
         if len(self.params) > 0:
-            return self.query % tuple(
-                map(
-                    lambda x: "'{}'".format(x.__str__().replace("'", "\"")), self.params
+            try:
+                sql = self.query
+                sql = sql\
+                    .replace("%s", "_percent_s_")\
+                    .replace("%", "%%")\
+                    .replace("_percent_s_", "%s")
+                return sql % tuple(
+                    map(
+                        lambda x: "'{}'".format(x.__str__().replace("'", "\"")), self.params
+                    )
                 )
-            )
+            except Exception:
+                return "Query Log Exception"
         else:
             return self.query

@@ -1,9 +1,22 @@
 import json
 import re
-from typing import List, Any, Dict, Union
+from typing import List, Any, Dict, Union, Optional
 
 
 class Utils:
+
+    @staticmethod
+    def strempty(mstr: Optional[str]) -> bool:
+        """
+        strempty
+
+        Args:
+            mstr (Optional[str]): str
+
+        Returns:
+            bool
+        """
+        return mstr is None or mstr == ""
 
     @staticmethod
     def list_to_str_lit(elements: List[Any]) -> List[str]:

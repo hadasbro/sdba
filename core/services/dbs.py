@@ -47,6 +47,13 @@ class DBS:
     def connection(self, rc: Union[MySQLConnection, None]) -> Union[MySQLConnection, None]:
         self._connection = rc
 
+    @staticmethod
+    def parse_db_error(db_err: Exception):
+        # ...
+        # parse error code
+        #  if per.errno == 1142: access denied
+        raise
+
     def __init__(self, credentials=None) -> None:
         """
         __init__
@@ -68,6 +75,7 @@ class DBS:
 
         except Error as e:
             log_objects(e)
+            raise e
 
         finally:
             pass
@@ -102,6 +110,9 @@ class DBS:
             res = cursor.fetchone()
         else:
             res = cursor.fetchall()
+
+        if res is None:
+            res = []
 
         if fetch_type == DSBFetchTypes.ROW:
             return res

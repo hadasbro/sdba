@@ -1,0 +1,74 @@
+{
+  "status": 1,
+  "database": {
+    "name": "Test Database",
+    "id": 0
+  },
+  "logs": [],
+  "payload": {
+    "active_processes": [
+      {
+        "ID": 1,
+        "USER": "test_user",
+        "HOST": "localhost",
+        "DB": null,
+        "COMMAND": "Daemon",
+        "TIME": 55,
+        "STATE": "Waiting for next activation",
+        "INFO": null
+      },
+      {
+        "ID": 13167282,
+        "USER": "test_login",
+        "HOST": "100.200.300.11:998",
+        "DB": "test_database",
+        "COMMAND": "Query",
+        "TIME": 0,
+        "STATE": "executing",
+        "INFO": "SELECT * FROM information_schema.PROCESSLIST  WHERE COMMAND != 'Sleep'"
+      }
+    ],
+    "commands_general_stats": {
+      "select": 0.2,
+      "update": 0.15,
+      "insert": 0.14
+    },
+    "keys_hit_rate": {
+      "read_effic": 100,
+      "write_effic": 94
+    },
+    "cache_hit_rate": {
+      "qcache_select_hit_rate": 65
+    },
+    "buffer_efficiency": {
+      "buffer_efficiency": 99,
+      "utilization": 0.75
+    },
+    "connections_info": {
+      "max_connections": 300,
+      "connection_errs": {
+        "Connection_errors_accept": "0",
+        "Connection_errors_internal": "0",
+        "Connection_errors_max_connections": "494",
+        "Connection_errors_peer_address": "0",
+        "Connection_errors_select": "0",
+        "Connection_errors_tcpwrap": "0"
+      }
+    },
+    "get_logs_info": {
+      "log_bin": "ON",
+      "log_bin_basename": "/logs/xx/mysql-bin-log",
+      "log_bin_index": "/logs/xx/mysql-bin-log.index",
+      "log_bin_trust_function_creators": "OFF",
+      "log_bin_use_v1_row_events": "OFF",
+      "log_error": "/logs/xx/mysql-error.log",
+      "log_output": "FILE",
+      "log_queries_not_using_indexes": "ON",
+      "log_slave_updates": "OFF",
+      "log_slow_admin_statements": "OFF",
+      "log_slow_slave_statements": "OFF",
+      "log_throttle_queries_not_using_indexes": "0",
+      "log_warnings": "1"
+    }
+  }
+}
