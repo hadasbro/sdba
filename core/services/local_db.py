@@ -12,7 +12,6 @@ from core.services.hasher import Hasher
 
 
 class TinyDBS(metaclass=Singleton):
-
     __metaclass__ = Singleton
 
     _DDATA_PATH: str = 'dbdata'
@@ -37,7 +36,6 @@ class TinyDBS(metaclass=Singleton):
         except Exception as e:
             log_objects(e)
             raise e
-
 
     def add_new_db(self, db: DBSCredentials) -> None:
         """
@@ -85,6 +83,7 @@ class TinyDBS(metaclass=Singleton):
         Returns:
             List[DBSCredentials]: cred list
         """
+
         def map_to_dbcred(db_data):
             db_hashed: str = db_data['hashed_data']
             encoded = self.hasher.decode_data(db_hashed)

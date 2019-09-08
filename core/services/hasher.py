@@ -91,7 +91,6 @@ class Hasher(metaclass=Singleton):
         except Exception as e:
             log_objects(e)
 
-
     def encode_data(self, strdata: Any) -> str:
         """
         encode_data

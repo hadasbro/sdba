@@ -62,7 +62,6 @@ class ApiController(BaseController):
                 self.STATUS_ERROR
             )
 
-
     def get_variables(self) -> Dict[str, Any]:
         """
         get_variables
@@ -127,7 +126,6 @@ class ApiController(BaseController):
                 Translator().translate_by_db_code(per),
                 self.STATUS_ERROR
             )
-
 
     def get_performance_schema(self) -> Dict[str, Any]:
         """

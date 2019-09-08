@@ -9,8 +9,8 @@ def json_response(f: Callable[[Any], Dict[str, Any]]):
     def wrapped(*args, **kwargs):
         return Utils.dict_to_json(f(*args, **kwargs))
         return r
-    return wrapped
 
+    return wrapped
 
 # RT = Callable[..., Dict[str, Any]]
 # BT = Callable[..., int]
@@ -37,4 +37,3 @@ def json_response(f: Callable[[Any], Dict[str, Any]]):
 #         return wrapped_f
 #
 #     return wrap
-

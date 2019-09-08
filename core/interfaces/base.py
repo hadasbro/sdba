@@ -14,6 +14,7 @@ class Base(ABC):
         Returns:
             Callable
         """
+
         def decorator(fn):
             @functools.wraps(fn)
             def g(arg, *args, **kwargs):

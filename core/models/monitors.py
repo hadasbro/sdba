@@ -79,8 +79,8 @@ class Monitor(BaseModel, MonitorsSql, Loggable):
             str
         """
         return f'MONITOR: {self.__class__.__name__} ' \
-               f'TAG: {self.monitor_tag} ' \
-               f'CONTENT: {self._log_content}'
+            f'TAG: {self.monitor_tag} ' \
+            f'CONTENT: {self._log_content}'
 
     def get_as_string(self) -> str:
         """

@@ -26,9 +26,9 @@ class QueryLog:
         if len(self.params) > 0:
             try:
                 sql = self.query
-                sql = sql\
-                    .replace("%s", "_percent_s_")\
-                    .replace("%", "%%")\
+                sql = sql \
+                    .replace("%s", "_percent_s_") \
+                    .replace("%", "%%") \
                     .replace("_percent_s_", "%s")
                 return sql % tuple(
                     map(

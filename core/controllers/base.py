@@ -11,7 +11,6 @@ from core.services.translator import Translator
 
 
 class BaseController(ABC):
-
     STATUS_OK: int = 1
     STATUS_NO_DB: int = 2
     STATUS_ERROR: int = 3
@@ -37,7 +36,7 @@ class BaseController(ABC):
     def _get_response(self,
                       payload: Optional[Dict[str, str]] = None,
                       msg: Optional[str] = None,
-                      status = None
+                      status=None
                       ) -> Dict[str, Any]:
         """
         _get_response

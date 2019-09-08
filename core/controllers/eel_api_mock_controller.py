@@ -2,6 +2,7 @@ from core.commons.decorators import json_response
 from core.controllers import ApiMockController
 from core.exceptions.payload_exception import PayloadException
 
+
 @json_response
 def eel_mock_get_overview() -> str:
     """
@@ -15,6 +16,7 @@ def eel_mock_get_overview() -> str:
         return mc.get_overview()
     except PayloadException as ex:
         return ex.payload
+
 
 @json_response
 def eel_mock_get_monitors() -> str:
@@ -30,6 +32,7 @@ def eel_mock_get_monitors() -> str:
     except PayloadException as ex:
         return ex.payload
 
+
 @json_response
 def eel_mock_get_variables() -> str:
     """
@@ -43,6 +46,7 @@ def eel_mock_get_variables() -> str:
         return mc.get_variables()
     except PayloadException as ex:
         return ex.payload
+
 
 @json_response
 def eel_mock_get_replication_data() -> str:
@@ -58,6 +62,7 @@ def eel_mock_get_replication_data() -> str:
     except PayloadException as ex:
         return ex.payload
 
+
 @json_response
 def eel_mock_get_performance_schema() -> str:
     """
@@ -72,6 +77,7 @@ def eel_mock_get_performance_schema() -> str:
     except PayloadException as ex:
         return ex.payload
 
+
 @json_response
 def eel_mock_get_info_schema() -> str:
     """
@@ -85,9 +91,6 @@ def eel_mock_get_info_schema() -> str:
         return mc.get_info_schema()
     except PayloadException as ex:
         return ex.payload
-
-
-
 
 
 result = eel_mock_get_overview()
