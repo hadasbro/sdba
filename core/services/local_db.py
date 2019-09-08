@@ -20,6 +20,7 @@ class TinyDBS(metaclass=Singleton):
 
     tdb_db = None
     tdb_table_databases = None
+    hasher = None
 
     def __init__(self) -> None:
         """
@@ -34,6 +35,7 @@ class TinyDBS(metaclass=Singleton):
             .joinpath(self._DATA_FILE)
 
         try:
+            self.hasher = Hasher()
             self.tdb_db = TinyDB(absolute)
             self.tdb_tbl_databases = self.tdb_db.table('databases')
             self.tdb_tbl_latest_dbs = self.tdb_db.table('tdb_tbl_latest_dbs')
@@ -55,7 +57,7 @@ class TinyDBS(metaclass=Singleton):
         """
         try:
             db_cred = db.get_as_dict()
-            hashed_data = Hasher.encode_data(db_cred)
+            hashed_data = self.hasher.encode_data(db_cred)
             '''
                 endode credentials before save to tiny DB
             '''
@@ -91,7 +93,7 @@ class TinyDBS(metaclass=Singleton):
         """
         def map_to_dbcred(db_data):
             db_hashed: str = db_data['hashed_data']
-            encoded = Hasher.decode_data(db_hashed)
+            encoded = self.hasher.decode_data(db_hashed)
             return DBSCredentials.from_dict(encoded)
 
         allDbs: List[DBSCredentials] = []
@@ -125,7 +127,7 @@ class TinyDBS(metaclass=Singleton):
         # db_id: int = db_data['id']
         db_hashed: str = db_data['hashed_data']
 
-        encoded = Hasher.decode_data(db_hashed)
+        encoded = self.hasher.decode_data(db_hashed)
 
         return DBSCredentials.from_dict(encoded)
 

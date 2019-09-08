@@ -1,12 +1,10 @@
-import sys
 from enum import Enum
 from typing import Union, Tuple, Dict, Any, List
+
 from mysql.connector import Error, MySQLConnection
+
 from core.commons import log_objects
 from core.commons.query_log import QueryLog
-
-
-# from core.objects.dbs_credentials import DBSCredentials
 
 
 class DBSFetchNum(Enum):
@@ -19,8 +17,7 @@ class DSBFetchTypes(Enum):
     ROW = "ROW"
 
 
-
-class DBS():
+class DBS:
 
     @property
     def connected(self) -> bool:
@@ -50,7 +47,7 @@ class DBS():
     def connection(self, rc: Union[MySQLConnection, None]) -> Union[MySQLConnection, None]:
         self._connection = rc
 
-    def __init__(self, credentials = None) -> None:
+    def __init__(self, credentials=None) -> None:
         """
         __init__
 

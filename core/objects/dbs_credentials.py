@@ -4,8 +4,7 @@ from typing import Dict, Any, Union
 from core.commons.utils import Utils
 
 
-class DBSCredentials():
-
+class DBSCredentials:
     class TYPE(Enum):
         MYSQL = 1
 

@@ -1,8 +1,8 @@
-from core.commons.utils import Utils
+from core.commons.decorators import json_response
 from core.controllers import ApiMockController
 from core.exceptions.payload_exception import PayloadException
 
-
+@json_response
 def eel_mock_get_overview() -> str:
     """
     eel_mock_get_overview
@@ -14,8 +14,9 @@ def eel_mock_get_overview() -> str:
         mc = ApiMockController()
         return mc.get_overview()
     except PayloadException as ex:
-        return Utils.dict_to_json(ex.payload)
+        return ex.payload
 
+@json_response
 def eel_mock_get_monitors() -> str:
     """
     eel_mock_get_monitors
@@ -27,8 +28,9 @@ def eel_mock_get_monitors() -> str:
         mc = ApiMockController()
         return mc.get_monitors()
     except PayloadException as ex:
-        return Utils.dict_to_json(ex.payload)
+        return ex.payload
 
+@json_response
 def eel_mock_get_variables() -> str:
     """
     eel_mock_get_variables
@@ -40,8 +42,9 @@ def eel_mock_get_variables() -> str:
         mc = ApiMockController()
         return mc.get_variables()
     except PayloadException as ex:
-        return Utils.dict_to_json(ex.payload)
+        return ex.payload
 
+@json_response
 def eel_mock_get_replication_data() -> str:
     """
     eel_mock_get_replication_data
@@ -53,8 +56,9 @@ def eel_mock_get_replication_data() -> str:
         mc = ApiMockController()
         return mc.get_replication_data()
     except PayloadException as ex:
-        return Utils.dict_to_json(ex.payload)
+        return ex.payload
 
+@json_response
 def eel_mock_get_performance_schema() -> str:
     """
     eel_mock_get_performance_schema
@@ -66,8 +70,9 @@ def eel_mock_get_performance_schema() -> str:
         mc = ApiMockController()
         return mc.get_performance_schema()
     except PayloadException as ex:
-        return Utils.dict_to_json(ex.payload)
+        return ex.payload
 
+@json_response
 def eel_mock_get_info_schema() -> str:
     """
     eel_mock_get_info_schema
@@ -79,7 +84,7 @@ def eel_mock_get_info_schema() -> str:
         mc = ApiMockController()
         return mc.get_info_schema()
     except PayloadException as ex:
-        return Utils.dict_to_json(ex.payload)
+        return ex.payload
 
 
 
@@ -92,4 +97,16 @@ result = eel_mock_get_overview()
 # result = eel_mock_get_performance_schema()
 # result = eel_mock_get_info_schema()
 
+print(type(result))
 print(result)
+
+
+#
+# def json_response(f):
+#     @wraps(f)
+#     def wrapped(*args, **kwargs):
+#         r = f(*args, **kwargs)
+#         r = str(r) + "xxxxxxxxxxxxx yyyyyyy"
+#         # r .... JSON
+#         return r
+#     return wrapped

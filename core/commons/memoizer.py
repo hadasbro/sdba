@@ -4,7 +4,7 @@ from typing import Callable, Dict, Any
 from core.commons import log_objects
 
 
-class Memoize():
+class Memoize:
 
     def __init__(self, func: Callable[..., Any]) -> None:
         """

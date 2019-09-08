@@ -1,7 +1,7 @@
 from core.commons import log_objects
 
 
-class HtmlIzer():
+class HtmlIzer:
 
     def __init__(self, wrp: str = '<span class="{}">{}</span>') -> None:
 

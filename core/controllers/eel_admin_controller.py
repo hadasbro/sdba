@@ -1,13 +1,14 @@
 from typing import Dict, Any
 
+from core.commons.decorators import json_response
 from core.commons.utils import Utils
 from core.controllers import AdminController
 from core.exceptions.payload_exception import PayloadException
 from core.objects.dbs_credentials import DBSCredentials
 
 
+@json_response
 def eel_get_databases() -> str:
-
     try:
         mc = AdminController()
         return mc.get_databases()
@@ -15,8 +16,9 @@ def eel_get_databases() -> str:
     except PayloadException as ex:
         return Utils.dict_to_json(ex.payload)
 
-def eel_add_new_database(data: Dict[str, Any]) -> str:
 
+@json_response
+def eel_add_new_database(data: Dict[str, Any]) -> str:
     try:
         name = data['name']
         host = data['host']
@@ -32,8 +34,6 @@ def eel_add_new_database(data: Dict[str, Any]) -> str:
         return Utils.dict_to_json(ex.payload)
 
 
-
-
 # result = eel_get_databases()
 result = eel_add_new_database({
     'name': "My Great DB 2",
@@ -41,6 +41,5 @@ result = eel_add_new_database({
     'user': "root",
     'password': ""
 })
-
 
 print(result)

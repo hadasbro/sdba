@@ -3,7 +3,7 @@ import re
 from typing import List, Any, Dict, Union
 
 
-class Utils():
+class Utils:
 
     @staticmethod
     def list_to_str_lit(elements: List[Any]) -> List[str]:

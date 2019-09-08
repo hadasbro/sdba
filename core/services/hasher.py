@@ -1,13 +1,19 @@
 import re
 from typing import Any
+from core import Program
+from core.interfaces.singleton import Singleton
+from cryptography.fernet import Fernet
 
 
-class Hasher():
+class Hasher(metaclass=Singleton):
+    __metaclass__ = Singleton
 
     WRAP_REGEX: str = '<HASHED_DATA_SDBA>{(.+?)}</HASHED_DATA_SDBA>'
 
-    @staticmethod
-    def _unhash(estr: str) -> str:
+    def __init__(self) -> None:
+        self.__crypto_key = Program.get_crypto_key()
+
+    def _unhash(self, estr: str) -> str:
         """
         _unhash
 
@@ -15,27 +21,28 @@ class Hasher():
             estr (str):
 
         Returns:
-            str
+            _unhash
         """
-        estr = str(estr)
-        return estr
+        f = Fernet(self.__crypto_key)
+        decrypted = f.decrypt(estr.encode(Program.ENCODING))
+        return decrypted
 
-    @staticmethod
-    def _hash(estr: str) -> str:
+    def _hash(self, estr: str) -> str:
         """
         _hash
 
         Args:
-            estr ():
+            estr (str):
 
         Returns:
             str
         """
-        estr = str(estr)
-        return Hasher.WRAP_REGEX.replace("{(.+?)}", "{}").format(str(estr))
+        message = str(estr).encode()
+        f = Fernet(self.__crypto_key)
+        encrypted_str: str = f.encrypt(message).decode(Program.ENCODING)
+        return self.WRAP_REGEX.replace("{(.+?)}", "{}").format(encrypted_str)
 
-    @staticmethod
-    def decode_data(strdata: Any) -> Any:
+    def decode_data(self, strdata: Any) -> Any:
         """
         decode_data
 
@@ -45,18 +52,18 @@ class Hasher():
         Returns:
             Any
         """
-        hasher_tag: str = Hasher.WRAP_REGEX.split('{')[0]
+        hasher_tag: str = self.WRAP_REGEX.split('{')[0]
 
         def decode(estr: str) -> str:
             if hasher_tag not in str(estr):
                 return estr
             else:
-                patters: str = Hasher.WRAP_REGEX.replace("{", "").replace("}", "")
+                patters: str = self.WRAP_REGEX.replace("{", "").replace("}", "")
                 m = re.search(patters, estr)
                 if m:
                     found = m.group(1)
-                    return Hasher._unhash(found)
-                elif estr == Hasher.WRAP_REGEX.replace("{(.+?)}", ""):
+                    return self._unhash(found)
+                elif estr == self.WRAP_REGEX.replace("{(.+?)}", ""):
                     return ""
                 else:
                     return estr
@@ -74,9 +81,7 @@ class Hasher():
         else:
             return decode(strdata)
 
-
-    @staticmethod
-    def encode_data(strdata: Any):
+    def encode_data(self, strdata: Any) -> str:
         """
         encode_data
 
@@ -84,16 +89,16 @@ class Hasher():
             strdata (Any):
 
         Returns:
-            Any
+            str
         """
-        hasher_tag: str = Hasher.WRAP_REGEX.split('{')[0]
+        hasher_tag: str = self.WRAP_REGEX.split('{')[0]
 
         def encode(estr: str) -> str:
 
             if hasher_tag in str(estr):
                 return estr
             else:
-                return Hasher._hash(estr)
+                return self._hash(estr)
 
         if isinstance(strdata, dict):
             ndct = {}

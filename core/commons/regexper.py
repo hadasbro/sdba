@@ -3,7 +3,7 @@ import re
 from core.commons import log_objects
 
 
-class Regexper():
+class Regexper:
 
     @staticmethod
     def clean_str(rgx_iterable, mstring: str) -> str:

@@ -1,6 +1,5 @@
 from typing import Any, Dict, List, Union, Optional
 
-from core.commons.utils import Utils
 from core.controllers.base import BaseController
 from core.models.info_schema import InfoSchema
 from core.models.monitors import MonitorDedlock, Monitors, MonitorBackground, MonitorSemaphores, \
@@ -14,7 +13,6 @@ from core.services.local_db import TinyDBS
 
 
 class ApiController(BaseController):
-
     STATUS_OK: int = 1
     STATUS_NO_DB: int = 2
     STATUS_ERROR: int = 3
@@ -32,7 +30,7 @@ class ApiController(BaseController):
         """
         super().__init__(dbs)
 
-    def __get_response(self, payload: Dict[str, str]) -> Dict[str, str]:
+    def __get_response(self, payload: Dict[str, str]) -> Dict[str, Any]:
         """
         __get_response
 
@@ -45,10 +43,9 @@ class ApiController(BaseController):
 
         self.response['payload'] = payload
 
-        return Utils.dict_to_json(self.response)
+        return self.response
 
-
-    def get_monitors(self) -> str:
+    def get_monitors(self) -> Dict[str, Any]:
         """
         get_monitors
 
@@ -68,7 +65,7 @@ class ApiController(BaseController):
 
         return self.__get_response(dbStatus.get_partial_monitors_result())
 
-    def get_variables(self) -> str:
+    def get_variables(self) -> Dict[str, Any]:
         """
         get_variables
 
@@ -78,7 +75,7 @@ class ApiController(BaseController):
         mv = MySQLVariables(self.dbs)
         return self.__get_response(mv.get_all_variables())
 
-    def get_replication_data(self) -> str:
+    def get_replication_data(self) -> Dict[str, Any]:
         """
         get_replication_data
 
@@ -88,7 +85,7 @@ class ApiController(BaseController):
         mv = MysqlReplication(self.dbs)
         return self.__get_response(mv.get_replication_log())
 
-    def get_overview(self) -> str:
+    def get_overview(self) -> Dict[str, Any]:
         """
         get_overview
 
@@ -108,7 +105,7 @@ class ApiController(BaseController):
 
         return self.__get_response(res)
 
-    def get_performance_schema(self) -> str:
+    def get_performance_schema(self) -> Dict[str, Any]:
         """
         get_performance_schema
 
@@ -124,7 +121,7 @@ class ApiController(BaseController):
 
         return self.__get_response(res)
 
-    def get_info_schema(self) -> str:
+    def get_info_schema(self) -> Dict[str, Any]:
         """
         get_info_schema
 

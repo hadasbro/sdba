@@ -1,8 +1,10 @@
+from core.commons.decorators import json_response
 from core.commons.utils import Utils
 from core.controllers import ApiController
 from core.exceptions.payload_exception import PayloadException
 
 
+@json_response
 def eel_get_overview() -> str:
     """
     eel_get_overview
@@ -17,6 +19,7 @@ def eel_get_overview() -> str:
         return Utils.dict_to_json(ex.payload)
 
 
+@json_response
 def eel_get_monitors() -> str:
     """
     eel_get_monitors
@@ -30,6 +33,8 @@ def eel_get_monitors() -> str:
     except PayloadException as ex:
         return Utils.dict_to_json(ex.payload)
 
+
+@json_response
 def eel_get_variables() -> str:
     """
     eel_get_variables
@@ -43,6 +48,8 @@ def eel_get_variables() -> str:
     except PayloadException as ex:
         return Utils.dict_to_json(ex.payload)
 
+
+@json_response
 def eel_get_replication_data() -> str:
     """
     eel_get_replication_data
@@ -56,6 +63,8 @@ def eel_get_replication_data() -> str:
     except PayloadException as ex:
         return Utils.dict_to_json(ex.payload)
 
+
+@json_response
 def eel_get_performance_schema() -> str:
     """
     eel_get_performance_schema
@@ -69,6 +78,8 @@ def eel_get_performance_schema() -> str:
     except PayloadException as ex:
         return Utils.dict_to_json(ex.payload)
 
+
+@json_response
 def eel_get_info_schema() -> str:
     """
     eel_get_info_schema
@@ -83,14 +94,11 @@ def eel_get_info_schema() -> str:
         return Utils.dict_to_json(ex.payload)
 
 
-
-
-
-result = eel_get_overview()
-result = eel_get_monitors()
-result = eel_get_variables()
-result = eel_get_replication_data()
-result = eel_get_performance_schema()
+# result = eel_get_overview()
+# result = eel_get_monitors()
+# result = eel_get_variables()
+# result = eel_get_replication_data()
+# result = eel_get_performance_schema()
 result = eel_get_info_schema()
 
 print(">>>>>>> data >>>>>>>", result)
