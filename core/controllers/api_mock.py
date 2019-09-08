@@ -124,7 +124,7 @@ class ApiMockController:
                     ]
                 },
                 {
-                    "uip": "rms@100.200.300.40",
+                    "uip": "test@100.200.300.40",
                     "trans_id": "10383605280",
                     "operation": "update",
                     "sql_info": [
