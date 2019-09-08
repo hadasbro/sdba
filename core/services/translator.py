@@ -8,7 +8,9 @@ class Translator(metaclass=Singleton):
     __metaclass__ = Singleton
 
     key_en_value: Dict[str, str] = {
-        "db_choose": "Please choose database"
+        "db_choose": "Please choose database",
+        "inforrect_input_data": "Please provide all needed informations",
+        "inforrect_db_cred": "Please provide correct DB credentials"
     }
 
     def __init__(self, default_lang = "en") -> None:

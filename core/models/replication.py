@@ -41,6 +41,9 @@ class MysqlReplication(BaseModel, ReplicationSql, Loggable):
         master_status = self.get_master_status()
         slave_status = self.get_slave_status()
 
+        if master_status is None or slave_status is None:
+            return {}
+
         result: Dict[str, str] = {
             "master_important_values": {},
             "master_full_log": master_status,

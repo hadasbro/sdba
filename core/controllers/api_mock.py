@@ -2,9 +2,10 @@ from typing import Dict, Any
 
 from core.commons.utils import Utils
 from core.controllers import ApiController
+from core.controllers.base import BaseController
 
 
-class ApiMockController:
+class ApiMockController(BaseController):
 
     def __init__(self) -> None:
         pass

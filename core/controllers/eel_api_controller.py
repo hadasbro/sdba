@@ -87,10 +87,10 @@ def eel_get_info_schema() -> str:
 
 
 result = eel_get_overview()
-# result = eel_get_monitors()
-# result = eel_get_variables()
-# result = eel_get_replication_data()
-# result = eel_get_performance_schema()
-# result = eel_get_info_schema()
+result = eel_get_monitors()
+result = eel_get_variables()
+result = eel_get_replication_data()
+result = eel_get_performance_schema()
+result = eel_get_info_schema()
 
-print(result)
+print(">>>>>>> data >>>>>>>", result)

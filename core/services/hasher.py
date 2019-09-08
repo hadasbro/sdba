@@ -56,6 +56,8 @@ class Hasher():
                 if m:
                     found = m.group(1)
                     return Hasher._unhash(found)
+                elif estr == Hasher.WRAP_REGEX.replace("{(.+?)}", ""):
+                    return ""
                 else:
                     return estr
 

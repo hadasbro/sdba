@@ -1,5 +1,6 @@
+from functools import reduce
 from pathlib import Path
-from typing import Any, Union
+from typing import Any, Union, List, Dict
 
 from tinydb import TinyDB, Query
 
@@ -37,12 +38,6 @@ class TinyDBS(metaclass=Singleton):
             self.tdb_tbl_databases = self.tdb_db.table('databases')
             self.tdb_tbl_latest_dbs = self.tdb_db.table('tdb_tbl_latest_dbs')
 
-
-            # adding test DB
-            # test = db_instance(1, "localhost", "root", "", 3306)
-            # self.add_new_db(test)
-            # self.set_latest_db(test)
-
         except Exception as e:
             log_objects(e)
             raise e
@@ -70,10 +65,42 @@ class TinyDBS(metaclass=Singleton):
             }
 
             self.tdb_tbl_databases.insert(data)
-
         except Exception as e:
             log_objects(e)
             raise e
+
+    def get_last_db_id(self) -> int:
+        """
+        get_last_db_id
+
+        Returns:
+            int: max id
+        """
+        adbs: List[DBSCredentials] = self.get_all_databases()
+        if not adbs:
+            return 0
+
+        return reduce(lambda a, b: a if a > b else b, list(map(lambda el: int(el.get_id()), adbs)))
+
+    def get_all_databases(self) -> List[DBSCredentials]:
+        """
+        get_all_databases
+
+        Returns:
+            List[DBSCredentials]: cred list
+        """
+        def map_to_dbcred(db_data):
+            db_hashed: str = db_data['hashed_data']
+            encoded = Hasher.decode_data(db_hashed)
+            return DBSCredentials.from_dict(encoded)
+
+        allDbs: List[DBSCredentials] = []
+
+        dbi: List[Dict[str, str]] = self.tdb_tbl_databases.all()
+
+        allDbs = list(map(lambda el: map_to_dbcred(el), dbi))
+
+        return allDbs
 
     def get_db_by_id(self, ldb_id: int) -> DBSCredentials:
         """
@@ -95,7 +122,7 @@ class TinyDBS(metaclass=Singleton):
 
         db_data = dbi[0]
 
-        db_id: int = db_data['id']
+        # db_id: int = db_data['id']
         db_hashed: str = db_data['hashed_data']
 
         encoded = Hasher.decode_data(db_hashed)
@@ -147,4 +174,3 @@ class TinyDBS(metaclass=Singleton):
                 self.tdb_tbl_latest_dbs.update({'id': db.get_id()}, Q.last_db_id == 1)
         except Exception as e:
             log_objects(e)
-            print(e)
