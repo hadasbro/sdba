@@ -12,9 +12,9 @@ Electron-like MySQL Monitor including popular metrics based on `Information Sche
 ![picture](s-dba-img.png)
 
 
-![picture](https://img.shields.io/badge/Project%20progress%20%5B%20core%20%5D-%7C%7C%7C%7C%7C%7C%7C%7C%7C%7C%7C%7C%7C%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%20%2040%25-blueviolet)
+![picture](https://img.shields.io/badge/Project%20progress%20%5B%20CORE%20%5D-%7C%7C%7C%7C%7C%7C%7C%7C%7C%7C%7C%7C%7C%7C%7C%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%2065%25-blueviolet)
 
-![picture](https://img.shields.io/badge/Project%20progress%20%5B%20GUI%20%5D-%7C%7C%7C%7C%7C%7C%7C%7C%7C%7C%7C%7C%7C%7C%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%20%2050%25-ff69b4)
+![picture](https://img.shields.io/badge/Project%20progress%20%5B%20API%20%5D-%7C%7C%7C%7C%7C%7C%7C%7C%7C%7C%7C%7C%7C%7C%7C%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%2050%25-ff69b4)
 
 ## Table of Contents
 
@@ -335,7 +335,7 @@ round(["Qcache_hits"] / (["Qcache_hits"] + ["Com_select"]), 2) * 100
 
 
 ## Project progress
-Project is in progress. Core is done in 40%, GUI in 50%. 
+Project is in progress. Core is done in 65%, GUI in 50%. 
 
 
 ## Acknowledgments
