@@ -13,3 +13,4 @@ gui/react
 output/
 core/commons/.mypy_cache
 core/temp/
+dbdata/
