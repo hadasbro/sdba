@@ -4,9 +4,9 @@ from abc import ABC
 class ReplicationSql(ABC):
 
     @property
-    def get_master_status_sql(self) -> str:
+    def get_main_status_sql(self) -> str:
         """
-        get_master_status_sql
+        get_main_status_sql
 
         Returns:
             str: plain SQL
@@ -14,9 +14,9 @@ class ReplicationSql(ABC):
         return "SHOW MASTER STATUS"
 
     @property
-    def get_slave_status_sql(self) -> str:
+    def get_subordinate_status_sql(self) -> str:
         """
-        get_slave_status_sql
+        get_subordinate_status_sql
 
         Returns:
             str: plain SQL
