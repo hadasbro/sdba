@@ -37,71 +37,71 @@ class MysqlReplication(BaseModel, ReplicationSql, Loggable):
             Dict[str, Any]: dict
         """
 
-        master_status = self.get_master_status()
-        slave_status = self.get_slave_status()
+        main_status = self.get_main_status()
+        subordinate_status = self.get_subordinate_status()
 
-        if master_status is None or slave_status is None:
+        if main_status is None or subordinate_status is None:
             return {}
 
         result: Dict[str, str] = {
-            "master_important_values": {},
-            "master_full_log": master_status,
-            "slave_important_values": {},
-            "slave_full_log": slave_status,
+            "main_important_values": {},
+            "main_full_log": main_status,
+            "subordinate_important_values": {},
+            "subordinate_full_log": subordinate_status,
             "conslusion": {}
         }
 
-        key_keys_slave = (
-            "Seconds_Behind_Master",
-            "Master_Log_File",
-            "Read_Master_Log_Pos",
+        key_keys_subordinate = (
+            "Seconds_Behind_Main",
+            "Main_Log_File",
+            "Read_Main_Log_Pos",
             "Relay_Log_File",
             "Relay_Log_Pos",
-            "Relay_Master_Log_File",
+            "Relay_Main_Log_File",
             "Last_Error",
             "Last_IO_Error",
             "Last_SQL_Error"
         )
 
-        key_keys_master = ("File", "Position")
+        key_keys_main = ("File", "Position")
 
-        for ik in key_keys_master:
-            if ik in master_status:
-                result["master_important_values"][ik] = master_status[ik]
+        for ik in key_keys_main:
+            if ik in main_status:
+                result["main_important_values"][ik] = main_status[ik]
 
-        for ik in key_keys_slave:
-            if ik in slave_status:
-                result["slave_important_values"][ik] = slave_status[ik]
+        for ik in key_keys_subordinate:
+            if ik in subordinate_status:
+                result["subordinate_important_values"][ik] = subordinate_status[ik]
 
         result["conslusion"] = "conslusion"
 
         return result
 
-    def get_master_status(self) -> Dict[str, str]:
+    def get_main_status(self) -> Dict[str, str]:
         """
-        get_master_status
+        get_main_status
 
         Returns:
             Dict[str, str]:
         """
 
         try:
-            result = self.db.fetchOne(self.get_master_status_sql, DSBFetchTypes.ASSOC)
+            result = self.db.fetchOne(self.get_main_status_sql, DSBFetchTypes.ASSOC)
             return result
         except Exception as e:
             log_objects(e)
             raise e
 
-    def get_slave_status(self) -> Dict[str, Any]:
+    def get_subordinate_status(self) -> Dict[str, Any]:
         """
-        get_slave_status
+        get_subordinate_status
 
         Returns:
             Dict[str, Any]: dict
         """
 
         try:
-            result = self.db.fetchOne(self.get_slave_status_sql, DSBFetchTypes.ASSOC)
+            result = self.db.fetchOne(self.get_subordinate_status_sql, DSBFetchTypes.ASSOC)
             return result
         except Exception as e:
             log_objects(e)
